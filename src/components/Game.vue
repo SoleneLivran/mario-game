@@ -3,36 +3,22 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
-			gameStartCellY: {
-				type: Number,
-				default: 1
-			},
-			gameStartCellX: {
-				type: Number,
-				default: 1
-			},
-			gameEndCellY: {
-
-			},
-			gameEndCellX: {
-
-			},
-			playerCellY: {
-				type: Number,
-				default: this.gameStartCellY
-			},
-			playerCellX: {
-				type: Number,
-				default: this.gameStartCellX
-			},
+			gameStartCellY: 1,
+			gameStartCellX: 1,
+			gameEndCellY: this.rows,
+			gameEndCellX: this.columns,
+			playerCellY: this.gameStartCellY,
+			playerCellX: this.gameStartCellX,
 		}
 	},
 	props: {
-		boardHeight: {
-
+		rows: {
+			type: Number,
+			default: 4
 		},
-		boardWidth: {
-			
+		columns: {
+			type: Number,
+			default: 6
 		}
 	},
 	methods: {
@@ -61,37 +47,9 @@ export default {
 		</p>
 
 		<div id="board">
-			<div class="cellRow" id="row1">
-				<div class="cell cellStart cellCurrent cellCurrent-rigth"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-			</div>
-			<div class="cellRow" id="row2">
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-			</div>
-			<div class="cellRow" id="row3">
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-			</div>
-			<div class="cellRow" id="row4">
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell"></div>
-				<div class="cell cellEnd"></div>
+			<div v-for="row in rows" class="cellRow" :key="row">
+				<div class="cell" :class="{'cellStart' : row == gameStartCellY && column == gameStartCellX, 'cellEnd' : row == gameEndCellY && column == gameEndCellX,}" v-for="column in columns" :key="column">
+				</div>
 			</div>
 		</div>
 	</div>
