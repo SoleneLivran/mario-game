@@ -34,14 +34,24 @@ export default {
 	methods: {
 		move: function(evt) {
 			let key = evt.code;
+
+
 			if (key === 'ArrowRight') {
-				this.playerCellX += 1
+				if (this.playerCellX < this.columns) {
+					this.playerCellX += 1
+				}
 			} else if (key === 'ArrowLeft') {
-				this.playerCellX -= 1
+				if (this.playerCellX > 1) {
+					this.playerCellX -= 1
+				}
 			} else if (key == 'ArrowUp') {
-				this.playerCellY -= 1
+				if (this.playerCellY > 1) {
+					this.playerCellY -= 1
+				}
 			} else if (key == 'ArrowDown') {
-				this.playerCellY += 1
+				if (this.playerCellY < this.rows) {
+					this.playerCellY += 1
+				}
 			}
 		}
 	}
