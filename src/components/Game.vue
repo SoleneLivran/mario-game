@@ -11,6 +11,12 @@ export default {
 			playerCellX: 1,
 		}
 	},
+	created() {
+		window.addEventListener('keyup', this.move)
+	},
+	destroyed() {
+		window.removeEventListener('keyup', this.move)
+	},
 	mounted() {
 		this.playerCellY = this.gameStartCellY;
 		this.playerCellX = this.gameStartCellX;
@@ -26,18 +32,18 @@ export default {
 		}
 	},
 	methods: {
-		moveRight: function() {
-			this.gameStartCellX += 1
-		},
-		moveLeft: function() {
-			this.gameStartCellX -= 1
-		},
-		moveUp: function() {
-			this.gameStartCellY += 1
-		},
-		moveDown: function() {
-			this.gameStartCellY -= 1
-		},
+		move: function(evt) {
+			let key = evt.code;
+			if (key === 'ArrowRight') {
+				this.playerCellX += 1
+			} else if (key === 'ArrowLeft') {
+				this.playerCellX -= 1
+			} else if (key == 'ArrowUp') {
+				this.playerCellY -= 1
+			} else if (key == 'ArrowDown') {
+				this.playerCellY += 1
+			}
+		}
 	}
 }
 </script>
@@ -59,7 +65,7 @@ export default {
 					:class="{
 						'cellStart' : row == gameStartCellY && column == gameStartCellX,
 						'cellEnd' : row == gameEndCellY && column == gameEndCellX,
-						'cellCurrent' : row == gameStartCellY && column == playerCellX
+						'cellCurrent' : row == playerCellY && column == playerCellX
 					}">
 				</div>
 			</div>
