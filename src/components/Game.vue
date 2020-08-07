@@ -7,9 +7,13 @@ export default {
 			gameStartCellX: 1,
 			gameEndCellY: this.rows,
 			gameEndCellX: this.columns,
-			playerCellY: this.gameStartCellY,
-			playerCellX: this.gameStartCellX,
+			playerCellY: 1,
+			playerCellX: 1,
 		}
+	},
+	mounted() {
+		this.playerCellY = this.gameStartCellY;
+		this.playerCellX = this.gameStartCellX;
 	},
 	props: {
 		rows: {
@@ -48,7 +52,15 @@ export default {
 
 		<div id="board">
 			<div v-for="row in rows" class="cellRow" :key="row">
-				<div class="cell" :class="{'cellStart' : row == gameStartCellY && column == gameStartCellX, 'cellEnd' : row == gameEndCellY && column == gameEndCellX,}" v-for="column in columns" :key="column">
+				<div
+					v-for="column in columns"
+					:key="column"
+					class="cell"
+					:class="{
+						'cellStart' : row == gameStartCellY && column == gameStartCellX,
+						'cellEnd' : row == gameEndCellY && column == gameEndCellX,
+						'cellCurrent' : row == gameStartCellY && column == playerCellX
+					}">
 				</div>
 			</div>
 		</div>
@@ -118,23 +130,8 @@ export default {
 	}
 
 	.cellCurrent::after {
-	content: '>';
+	content: "X";
 	color: red;
 	}
 
-	.cellCurrent-top {
-	transform: rotate(-90deg);
-	}
-
-	.cellCurrent-bottom {
-	transform: rotate(90deg);
-	}
-
-	.cellCurrent-left {
-	transform: rotate(180deg);
-	}
-
-	.cellCurrent-right {
-	transform: rotate(0deg);
-	}
 </style>
