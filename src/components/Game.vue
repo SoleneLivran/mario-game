@@ -9,6 +9,7 @@ export default {
 			gameEndCellX: this.columns,
 			playerCellY: 1,
 			playerCellX: 1,
+			hasWon: false
 		}
 	},
 	created() {
@@ -35,7 +36,6 @@ export default {
 		move: function(evt) {
 			let key = evt.code;
 
-
 			if (key === 'ArrowRight') {
 				if (this.playerCellX < this.columns) {
 					this.playerCellX += 1
@@ -53,6 +53,13 @@ export default {
 					this.playerCellY += 1
 				}
 			}
+
+			this.checkVictory();
+		},
+		checkVictory: function() {
+			if (this.playerCellY == this.gameEndCellY && this.playerCellX == this.gameEndCellX) {
+				this.hasWon = true;
+			}
 		}
 	}
 }
@@ -61,11 +68,6 @@ export default {
 <template>
 
 	<div>
-		<h1>Let's-a-play!</h1>
-		<p class="description">
-			Jouer a Mario
-		</p>
-
 		<div id="board">
 			<div v-for="row in rows" class="cellRow" :key="row">
 				<div
@@ -79,6 +81,10 @@ export default {
 					}">
 				</div>
 			</div>
+		</div>
+
+		<div class="victory" v-if="hasWon">
+			Victory!
 		</div>
 	</div>
 
@@ -148,6 +154,13 @@ export default {
 	.cellCurrent::after {
 	content: "X";
 	color: red;
+	}
+
+	.victory {
+	color: red;
+	margin: 1em;
+	font-weight: bold;
+	font-size: 2em;
 	}
 
 </style>
