@@ -5,8 +5,8 @@ export default {
 		return {
 			gameStartCellY: Math.ceil(Math.random()*this.rows),
 			gameStartCellX: Math.ceil(Math.random()*this.columns),
-			gameEndCellY: this.rows,
-			gameEndCellX: this.columns,
+			gameEndCellY: Math.ceil(Math.random()*this.rows),
+			gameEndCellX: Math.ceil(Math.random()*this.columns),
 			playerCellY: 1,
 			playerCellX: 1,
 			hasWon: false
@@ -21,6 +21,9 @@ export default {
 	mounted() {
 		this.playerCellY = this.gameStartCellY;
 		this.playerCellX = this.gameStartCellX;
+		if (this.gameStartCellX == this.gameEndCellX && this.gameStartCellY == this.gameEndCellY) {
+			console.log('oups');
+		}
 	},
 	props: {
 		rows: {
