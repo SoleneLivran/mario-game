@@ -3,8 +3,8 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
-			gameStartCellY: 1,
-			gameStartCellX: 1,
+			gameStartCellY: Math.ceil(Math.random()*this.rows),
+			gameStartCellX: Math.ceil(Math.random()*this.columns),
 			gameEndCellY: this.rows,
 			gameEndCellX: this.columns,
 			playerCellY: 1,
