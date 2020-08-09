@@ -3,10 +3,18 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
+			grid: [],
 			playerCellRow: 1,
 			playerCellColumn: 1,
+			gameCoins: 3,
+			playerCoins: 0,
+			mushrooms: 2,
+			isBig: false,
+			stars: 1,
+			hasStars: false,
+			ennemies: 1,
+			lives: 3,
 			hasWon: false,
-			grid: []
 		}
 	},
 	created() {
@@ -17,14 +25,41 @@ export default {
 			this.grid.push(new Array(this.columns));
 		}
 
+		// define start coordinates
 		let startCoord = this.generateEmptyCoordinates();
 		this.grid[startCoord.row][startCoord.column] = 'start'
 
+		// player start cell = game start cell
 		this.playerCellRow = startCoord.row;
 		this.playerCellColumn = startCoord.column;
 
+		// define end coordinates
 		let endCoord = this.generateEmptyCoordinates();
 		this.grid[endCoord.row][endCoord.column] = 'end'
+
+		// define coins coordinates
+		for (let coin = 0; coin < this.gameCoins; coin++) {
+			let coinCoord = this.generateEmptyCoordinates();
+			this.grid[coinCoord.row][coinCoord.column] = 'coin'
+		}
+
+		// define mushrooms coordinates
+		for (let mushroom = 0; mushroom < this.mushrooms; mushroom++) {
+			let mushroomCoord = this.generateEmptyCoordinates();
+			this.grid[mushroomCoord.row][mushroomCoord.column] = 'mushroom'
+		}
+
+		// define stars coordinates
+		for (let star = 0; star < this.stars; star++) {
+			let starCoord = this.generateEmptyCoordinates();
+			this.grid[starCoord.row][starCoord.column] = 'star'
+		}
+
+		// define ennemy coordinates
+		for (let ennemy = 0; ennemy < this.ennemies; ennemy++) {
+			let ennemyCoord = this.generateEmptyCoordinates();
+			this.grid[ennemyCoord.row][ennemyCoord.column] = 'ennemy'
+		}
 	},
 	destroyed() {
 		window.removeEventListener('keyup', this.move)
@@ -100,7 +135,7 @@ export default {
 				Reach the blue cell
 			</p>
 			<div id="board">
-				<!-- TODO faire commencer la boucle a 0 pour virer tous les -1 -->
+				<!-- TODO start loop at 0 so we don't need the -1s -->
 				<div v-for="row in rows" class="cellRow" :key="row">
 					<div
 						v-for="column in columns"
@@ -109,7 +144,11 @@ export default {
 						:class="{
 							'cellStart' : grid[row-1] && grid[row-1][column-1] === 'start',
 							'cellEnd' : grid[row-1] && grid[row-1][column-1] === 'end',
-							'cellCurrent' : row-1 === playerCellRow && column-1 === playerCellColumn
+							'cellCurrent' : row-1 === playerCellRow && column-1 === playerCellColumn,
+							'coinCell' : grid[row-1] && grid[row-1][column-1] === 'coin',
+							'mushroomCell' : grid[row-1] && grid[row-1][column-1] === 'mushroom',
+							'starCell' : grid[row-1] && grid[row-1][column-1] === 'star',
+							'ennemyCell' : grid[row-1] && grid[row-1][column-1] === 'ennemy'
 						}">
 					</div>
 				</div>
@@ -118,7 +157,7 @@ export default {
 
 		<div class="victory" v-if="hasWon">
 			<p>Victory!</p>
-			<button @click="newGame">
+			<button class="newGameButton" @click="newGame">
 				New Game
 			</button>
 		</div>
@@ -197,6 +236,21 @@ export default {
 	margin: 1em;
 	font-weight: bold;
 	font-size: 2em;
+	}
+
+	.coinCell::after {
+	content: "0";
+	color: rgba(255, 196, 0, 0.904);
+	}
+
+	.mushroomCell::after {
+	content: "m";
+	color: rgba(109, 53, 15, 0.692);
+	}
+
+	.mushroomCell::after {
+	content: "*";
+	color: rgba(41, 187, 255, 0.938);
 	}
 
 </style>
