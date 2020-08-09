@@ -5,11 +5,14 @@ export default {
 		return {
 			gameStartCellY: Math.ceil(Math.random()*this.rows),
 			gameStartCellX: Math.ceil(Math.random()*this.columns),
-			gameEndCellY: Math.ceil(Math.random()*this.rows),
-			gameEndCellX: Math.ceil(Math.random()*this.columns),
+			gameEndCellY: this.rows,
+			gameEndCellX: this.columns,
 			playerCellY: 1,
 			playerCellX: 1,
-			hasWon: false
+			hasWon: false,
+			occupiedCells: [],
+			startCoordinates: '',
+			endCoordinates: '',
 		}
 	},
 	created() {
@@ -19,11 +22,31 @@ export default {
 		window.removeEventListener('keyup', this.move)
 	},
 	mounted() {
+		// definir cell du joueur = cell de depart
 		this.playerCellY = this.gameStartCellY;
 		this.playerCellX = this.gameStartCellX;
-		if (this.gameStartCellX == this.gameEndCellX && this.gameStartCellY == this.gameEndCellY) {
-			console.log('oups');
+		// stocker les coordonnes de debut
+		this.startCoordinates = String(this.gameStartCellY) + String(this.gameStartCellX);
+		// les stocker comme case occupee
+		this.occupiedCells.push(this.startCoordinates);
+		do {
+			// randomiser la cellule de fin
+			this.gameEndCellY = Math.ceil(Math.random()*this.rows);
+			this.gameEndCellX = Math.ceil(Math.random()*this.columns);
+			// stocker les coordonnes de fin
+			this.endCoordinates = String(this.gameEndCellY) + String(this.gameEndCellX);
+			// en evitant de choisir une case deja occupee
+		} while (this.occupiedCells.includes(this.endCoordinates));
+		// les stocker comme case occupee
+		this.occupiedCells.push(this.endCoordinates);
+		if (this.startCoordinates == this.endCoordinates) {
+			console.log('oupsie');
 		}
+		// if (this.gameStartCellX == this.gameEndCellX && this.gameStartCellY == this.gameEndCellY) {
+		// 	console.log('oups');
+		// }
+	},
+	computed: {
 	},
 	props: {
 		rows: {
