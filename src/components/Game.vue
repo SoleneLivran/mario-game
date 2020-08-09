@@ -3,42 +3,33 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
-			gameStartCellY: Math.ceil(Math.random()*this.rows),
-			gameStartCellX: Math.ceil(Math.random()*this.columns),
-			gameEndCellY: this.rows,
-			gameEndCellX: this.columns,
-			playerCellY: 1,
-			playerCellX: 1,
+			playerCellRow: 1,
+			playerCellColumn: 1,
 			hasWon: false,
-			occupiedCells: [],
-			startCoordinates: '',
-			endCoordinates: '',
+			grid: []
 		}
 	},
 	created() {
 		window.addEventListener('keyup', this.move)
+		
+		// creation du tableau, cases "undefined"
+		for (let row = 0; row < this.rows; row++) {
+			this.grid.push(new Array(this.columns));
+		}
+
+		let startCoord = this.generateEmptyCoordinates();
+		this.grid[startCoord.row][startCoord.column] = 'start'
+
+		this.playerCellRow = startCoord.row;
+		this.playerCellColumn = startCoord.column;
+
+		let endCoord = this.generateEmptyCoordinates();
+		this.grid[endCoord.row][endCoord.column] = 'end'
 	},
 	destroyed() {
 		window.removeEventListener('keyup', this.move)
 	},
 	mounted() {
-		// definir cell du joueur = cell de depart
-		this.playerCellY = this.gameStartCellY;
-		this.playerCellX = this.gameStartCellX;
-		// stocker les coordonnes de debut
-		this.startCoordinates = String(this.gameStartCellY) + String(this.gameStartCellX);
-		// les stocker comme case occupee
-		this.occupiedCells.push(this.startCoordinates);
-		do {
-			// randomiser la cellule de fin
-			this.gameEndCellY = Math.ceil(Math.random()*this.rows);
-			this.gameEndCellX = Math.ceil(Math.random()*this.columns);
-			// stocker les coordonnes de fin
-			this.endCoordinates = String(this.gameEndCellY) + String(this.gameEndCellX);
-			// en evitant de choisir une case deja occupee
-		} while (this.occupiedCells.includes(this.endCoordinates));
-		// les stocker comme case occupee
-		this.occupiedCells.push(this.endCoordinates);
 	},
 	computed: {
 	},
@@ -53,36 +44,48 @@ export default {
 		}
 	},
 	methods: {
+		generateEmptyCoordinates: function() {
+			let row, column;
+
+			do {
+				row = Math.ceil(Math.random() * this.rows - 1);
+				column = Math.ceil(Math.random()*this.columns - 1);
+			} while (typeof this.grid[row][column] !== 'undefined');
+
+			return {row, column};
+		},
 		move: function(evt) {
 			let key = evt.code;
 
 			if (key === 'ArrowRight') {
-				if (this.playerCellX < this.columns) {
-					this.playerCellX += 1
+				if (this.playerCellColumn < this.columns - 1) {
+					this.playerCellColumn += 1
 				}
 			} else if (key === 'ArrowLeft') {
-				if (this.playerCellX > 1) {
-					this.playerCellX -= 1
+				if (this.playerCellColumn > 0) {
+					this.playerCellColumn -= 1
 				}
 			} else if (key == 'ArrowUp') {
-				if (this.playerCellY > 1) {
-					this.playerCellY -= 1
+				if (this.playerCellRow > 0) {
+					this.playerCellRow -= 1
 				}
 			} else if (key == 'ArrowDown') {
-				if (this.playerCellY < this.rows) {
-					this.playerCellY += 1
+				if (this.playerCellRow < this.rows - 1) {
+					this.playerCellRow += 1
 				}
 			}
 
 			this.checkVictory();
 		},
 		checkVictory: function() {
-			if (this.playerCellY == this.gameEndCellY && this.playerCellX == this.gameEndCellX) {
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				this.hasWon = true;
 			}
 		},
 		newGame: function() {
-			window.location.reload()
+			if (this.hasWon == true) {
+				window.location.reload()
+			}
 		}
 	}
 }
@@ -97,15 +100,16 @@ export default {
 				Reach the blue cell
 			</p>
 			<div id="board">
+				<!-- TODO faire commencer la boucle a 0 pour virer tous les -1 -->
 				<div v-for="row in rows" class="cellRow" :key="row">
 					<div
 						v-for="column in columns"
 						:key="column"
 						class="cell"
 						:class="{
-							'cellStart' : row == gameStartCellY && column == gameStartCellX,
-							'cellEnd' : row == gameEndCellY && column == gameEndCellX,
-							'cellCurrent' : row == playerCellY && column == playerCellX
+							'cellStart' : grid[row-1] && grid[row-1][column-1] === 'start',
+							'cellEnd' : grid[row-1] && grid[row-1][column-1] === 'end',
+							'cellCurrent' : row-1 === playerCellRow && column-1 === playerCellColumn
 						}">
 					</div>
 				</div>
