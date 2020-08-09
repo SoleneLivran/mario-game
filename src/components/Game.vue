@@ -39,12 +39,6 @@ export default {
 		} while (this.occupiedCells.includes(this.endCoordinates));
 		// les stocker comme case occupee
 		this.occupiedCells.push(this.endCoordinates);
-		if (this.startCoordinates == this.endCoordinates) {
-			console.log('oupsie');
-		}
-		// if (this.gameStartCellX == this.gameEndCellX && this.gameStartCellY == this.gameEndCellY) {
-		// 	console.log('oups');
-		// }
 	},
 	computed: {
 	},
