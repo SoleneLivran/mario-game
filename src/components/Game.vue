@@ -80,6 +80,9 @@ export default {
 			if (this.playerCellY == this.gameEndCellY && this.playerCellX == this.gameEndCellX) {
 				this.hasWon = true;
 			}
+		},
+		newGame: function() {
+			window.location.reload()
 		}
 	}
 }
@@ -88,23 +91,32 @@ export default {
 <template>
 
 	<div>
-		<div id="board">
-			<div v-for="row in rows" class="cellRow" :key="row">
-				<div
-					v-for="column in columns"
-					:key="column"
-					class="cell"
-					:class="{
-						'cellStart' : row == gameStartCellY && column == gameStartCellX,
-						'cellEnd' : row == gameEndCellY && column == gameEndCellX,
-						'cellCurrent' : row == playerCellY && column == playerCellX
-					}">
+		<div id="Game" v-if="!hasWon">
+			<h1>Let's-a-play!</h1>
+			<p class="description">
+				Reach the blue cell
+			</p>
+			<div id="board">
+				<div v-for="row in rows" class="cellRow" :key="row">
+					<div
+						v-for="column in columns"
+						:key="column"
+						class="cell"
+						:class="{
+							'cellStart' : row == gameStartCellY && column == gameStartCellX,
+							'cellEnd' : row == gameEndCellY && column == gameEndCellX,
+							'cellCurrent' : row == playerCellY && column == playerCellX
+						}">
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="victory" v-if="hasWon">
-			Victory!
+			<p>Victory!</p>
+			<button @click="newGame">
+				New Game
+			</button>
 		</div>
 	</div>
 

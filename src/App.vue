@@ -1,10 +1,6 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/super-mario.png" width="200px">
-    <h1>Let's-a-play!</h1>
-		<p class="description">
-			Reach the blue cell
-		</p>
     <Game></Game>
   </div>
 </template>
