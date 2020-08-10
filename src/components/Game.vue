@@ -222,7 +222,7 @@ export default {
 
 	.footer {
 		margin-top: 10rem;
-		font-size: 2em;
+		font-size: 1.5em;
 	}
 	
 	a {
