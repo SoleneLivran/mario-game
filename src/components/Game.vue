@@ -194,7 +194,7 @@ export default {
 		</div>
 
 		<div class="victory" v-if="hasWon">
-			
+			<img alt="Vue logo" src="../assets/mushroom.png" width="150px">
 			<h1>Victory!</h1>
 			<p>
 				Coins collected : {{playerCoins}} / {{gameCoins}}
@@ -205,8 +205,9 @@ export default {
 		</div>
 
 		<div class="game-over" v-if="hasLost">
+			<img alt="Vue logo" src="../assets/plant.png" width="150px">
+			<h1>Oh no!</h1>
 			<p>
-				Oh no!<br>
 				Game Over :(
 			</p>
 			<button class="newGameButton" @click="newGame">
@@ -224,12 +225,6 @@ export default {
 	background-color:#6096FF;
 	position: relative;
 	}
-
-	/* .background_images--cloud1 {
-		width: 20%;
-		top: -10%;
-		left: 2%;
-	} */
 
 	h1 {
 		font-family: 'Press Start 2P', cursive;
@@ -274,20 +269,6 @@ export default {
 
 	.stats p {
 		padding: 2em 1em 0 1em;
-	}
-
-	/* .footer {
-		margin-top: 10rem;
-		font-size: 1.5em;
-	} */
-	
-	/* a {
-		color: black;
-	} */
-
-	.label {
-		font-weight: bold;
-		margin: 1rem 0;
 	}
 
 	#userCode {
@@ -347,10 +328,9 @@ export default {
 
 	.cellCurrent {
 		background-image: url("../../public/img/mario-jump.png");
-		background-size: 80%;
+		background-size: 70%;
 		background-repeat: no-repeat;
 		background-position: center;
-		/* content: url("../../public/img/mario-jump.png"); */
 	}
 
 	.coinCell::after {
@@ -365,18 +345,25 @@ export default {
 		content: url("../../public/img/star.gif");	
 	}
 
-	/* .ennemyCell::after {
-	content: ":(";
-	color: rgba(48, 51, 53, 0.938);
-	} */
-
-	.victory {
+	.victory,
+	.game-over {
 		margin: 1em;
 		font-size: 2em;
 	}
 
-	.victory h1 {
+	.victory h1,
+	.game-over h1 {
 		font-family: 'Press Start 2P', cursive;
+	}
+
+	.newGameButton {
+		border: none;
+		border-radius: 10px;
+		background-color: white;
+		padding: 1em;
+		font-family: 'Press Start 2P', cursive;
+		color: red;
+		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
 	}
 
 
