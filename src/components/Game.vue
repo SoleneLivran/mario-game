@@ -19,6 +19,12 @@ export default {
 	},
 	created() {
 		window.addEventListener('keyup', this.move)
+
+		window.addEventListener("keydown", function(e) {
+			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+				e.preventDefault();
+			}
+		}, false);
 		
 		// creation du tableau, cases "undefined"
 		for (let row = 0; row < this.rows; row++) {
@@ -158,8 +164,8 @@ export default {
 				<span class="coinCell"></span> Collect as many coins as possible and reach the flag!<br>
 				<span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i><br>
 				<span class="starCell"></span> If you find a star, you are protected from the next ennemy<br>
-				<i class="fas fa-skull" style="color:red; font-size:1.5em;"></i> Ennemies are hidden. If one finds you, you lose a life
-				<p>If your lives go down to zero, game over!</p>
+				<i class="fas fa-skull" style="font-size:1.5em;"></i> Ennemies are hidden. If one finds you, you lose a life
+				<p>If your lives get down to zero...game over!</p>
 			</div>
 			<div class="stats">
 				<p>Lives : <span v-for="i in lives" :key="i"> <i class="fas fa-heart" style="color:red;"></i> </span></p>
