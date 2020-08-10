@@ -206,6 +206,10 @@ export default {
 				New Game
 			</button>
 		</div>
+
+		<div class="footer">
+			<a href="https://github.com/SoleneLivran/mario-game"><i class="fab fa-github"></i></a>
+		</div>
 	</div>
 
 </template>
@@ -214,6 +218,15 @@ export default {
 	body {
 	padding: 1rem;
 	font-family: Helvetica, sans-serif;
+	}
+
+	.footer {
+		margin-top: 10rem;
+		font-size: 2em;
+	}
+	
+	a {
+		color: black;
 	}
 
 	.label {
