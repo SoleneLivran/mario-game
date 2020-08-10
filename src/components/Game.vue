@@ -9,12 +9,12 @@ export default {
 			gameCoins: 3,
 			playerCoins: 0,
 			mushrooms: 2,
-			isBig: false,
 			stars: 1,
-			hasStars: false,
-			ennemies: 1,
+			hasStar: false,
+			ennemies: 4,
 			lives: 3,
 			hasWon: false,
+			hasLost: false,
 		}
 	},
 	created() {
@@ -110,15 +110,33 @@ export default {
 				}
 			}
 
-			this.checkVictory();
+			this.checkCell();
 		},
-		checkVictory: function() {
+		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				this.hasWon = true;
+			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
+				this.playerCoins += 1;
+				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
+				this.lives += 1;
+				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
+				this.hasStar = true;
+				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
+				if (this.hasStar) {
+					this.hasStar = false;
+				} else {
+					this.lives -= 1;
+				}
+				if (this.lives == 0) {
+					this.hasLost = true;
+				}
 			}
 		},
 		newGame: function() {
-			if (this.hasWon == true) {
+			if (this.hasWon == true || this.hasLost == true) {
 				window.location.reload()
 			}
 		}
@@ -129,10 +147,19 @@ export default {
 <template>
 
 	<div>
-		<div id="Game" v-if="!hasWon">
+		<div id="Game" v-if="!hasWon && !hasLost">
 			<h1>Let's-a-play!</h1>
 			<p class="description">
-				Reach the blue cell
+				Collect as many coins as possible and reach the blue cell!<br>
+				If you find a mushroom, you get an extra life &#9829;<br>
+				If you find a star, you don't fear the next ennemy &#128170;<br>
+				If an ennemy finds you, you lose a life :(<br>
+				If your lives go down to zero, you lost &#9760;
+			</p>
+			<p>
+				Lives : <span v-for="i in lives" :key="i">&#9829;</span><br>
+				Coins collected: {{playerCoins}}<br>
+				Hidden ennemies: {{ennemies}}
 			</p>
 			<div id="board">
 				<!-- TODO start loop at 0 so we don't need the -1s -->
@@ -156,7 +183,20 @@ export default {
 		</div>
 
 		<div class="victory" v-if="hasWon">
-			<p>Victory!</p>
+			<p>
+				Victory!<br>
+				Coins collected: {{playerCoins}}
+			</p>
+			<button class="newGameButton" @click="newGame">
+				New Game
+			</button>
+		</div>
+
+		<div class="game-over" v-if="hasLost">
+			<p>
+				Oh no!<br>
+				Game Over :(
+			</p>
 			<button class="newGameButton" @click="newGame">
 				New Game
 			</button>
@@ -248,9 +288,15 @@ export default {
 	color: rgba(109, 53, 15, 0.692);
 	}
 
-	.mushroomCell::after {
+	.starCell::after {
 	content: "*";
 	color: rgba(41, 187, 255, 0.938);
 	}
+
+	/* .ennemyCell::after {
+	content: ":(";
+	color: rgba(48, 51, 53, 0.938);
+	} */
+
 
 </style>
