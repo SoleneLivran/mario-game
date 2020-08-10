@@ -125,10 +125,14 @@ export default {
 				this.hasStar = true;
 				this.grid[this.playerCellRow][this.playerCellColumn] = '';
 			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
+				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+				this.ennemies -= 1;
 				if (this.hasStar) {
 					this.hasStar = false;
+					alert('Oh no! You got attacked. You lost your star.')
 				} else {
 					this.lives -= 1;
+					alert('Oh no! You got attacked. You lost a life.')
 				}
 				if (this.lives == 0) {
 					this.hasLost = true;
@@ -150,10 +154,11 @@ export default {
 		<div id="Game" v-if="!hasWon && !hasLost">
 			<h1>Let's-a-play!</h1>
 			<p class="description">
-				Collect as many coins as possible and reach the blue cell!<br>
-				If you find a mushroom, you get an extra life &#9829;<br>
-				If you find a star, you don't fear the next ennemy &#128170;<br>
-				If an ennemy finds you, you lose a life :(<br>
+				You are the ( <span class="cellCurrent"></span> ), move with your keyboard's arrow keys. &#8592;&#8594;&#8593;&#8595;<br>
+				Collect as many coins ( <span class="coinCell"></span> ) as possible and reach the blue cell!<br>
+				If you find a mushroom ( <span class="mushroomCell"></span> ), you get an extra life &#9829;<br>
+				If you find a star ( <span class="starCell"></span> ), you don't fear the next ennemy &#128170;<br>
+				Ennemies are hidden. If one finds you, you lose a life :(<br>
 				If your lives go down to zero, you lost &#9760;
 			</p>
 			<p>
