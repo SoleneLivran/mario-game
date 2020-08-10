@@ -190,7 +190,7 @@ export default {
 		<div class="victory" v-if="hasWon">
 			<p>
 				Victory!<br>
-				Coins collected: {{playerCoins}}
+				Coins collected: {{playerCoins}} / {{gameCoins}}
 			</p>
 			<button class="newGameButton" @click="newGame">
 				New Game
