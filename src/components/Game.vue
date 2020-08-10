@@ -160,12 +160,12 @@ export default {
 		<div id="game" v-if="!hasWon && !hasLost">
 			<div class="rules">
 				<h1>Let's-a-play!</h1>
-				<span class="cellCurrent"></span> Move with your keyboard's arrow keys. &#8592;&#8594;&#8593;&#8595;<br>
-				<span class="coinCell"></span> Collect as many coins as possible and reach the flag!<br>
-				<span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i><br>
-				<span class="starCell"></span> If you find a star, you are protected from the next ennemy<br>
-				<i class="fas fa-skull" style="font-size:1.5em;"></i> Ennemies are hidden. If one finds you, you lose a life
-				<p>If your lives get down to zero...game over!</p>
+				<p><img src="../../public/img/mario-jump.png" alt="mario" width="30px" style="vertical-align:bottom;"> Move with your keyboard's arrow keys</p>
+				<p><span class="coinCell"></span> Collect as many coins as possible and reach the flag!</p>
+				<p><span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i></p>
+				<p><i class="fas fa-skull" style="font-size:1.5em;"></i> Ennemies are hiding. If one finds you, you lose a life</p>
+				<p><span class="starCell"></span> If you find a star, you are protected from the next ennemy</p>
+				<p id="game-over-rule">If your lives get down to zero...game over!</p>
 			</div>
 			<div class="stats">
 				<p>Lives : <span v-for="i in lives" :key="i"> <i class="fas fa-heart" style="color:red;"></i> </span></p>
@@ -254,12 +254,17 @@ export default {
 		border-right: 3px solid #120F16;
 	}
 
-	.rules p, h1 {
+	.rules #game-over-rule, h1 {
 		text-align: center;
 	}
 
 	.rules h1 {
 		text-shadow: 3px 6px 0px rgba(0, 0, 0, 1);
+	}
+
+	.rules #game-over-rule {
+		font-size: 1.1em;
+		text-shadow: 1px 3px 0px rgba(0, 0, 0, 1);
 	}
 
 	.stats {
