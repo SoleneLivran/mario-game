@@ -338,7 +338,7 @@ export default {
 
 	.rules {
 		display: inline-block;
-		padding: 2rem;
+		padding: 0.5rem 2rem 0.5rem 2rem;
 		line-height: 2em;
 		text-align: justify;
 		background-color: #CB4F0E;
