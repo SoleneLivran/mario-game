@@ -1,4 +1,6 @@
 <script>
+import swal from 'sweetalert';
+
 export default {
 	name: 'Game', 
 	data() {
@@ -25,7 +27,7 @@ export default {
 				e.preventDefault();
 			}
 		}, false);
-		
+
 		// creation du tableau, cases "undefined"
 		for (let row = 0; row < this.rows; row++) {
 			this.grid.push(new Array(this.columns));
@@ -68,7 +70,12 @@ export default {
 		}
 	},
 	destroyed() {
-		window.removeEventListener('keyup', this.move)
+		window.removeEventListener('keyup', this.move),
+		window.addEventListener("keydown", function(e) {
+			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+				e.preventDefault();
+			}
+		}, false);
 	},
 	mounted() {
 	},
@@ -135,10 +142,10 @@ export default {
 				this.ennemies -= 1;
 				if (this.hasStar) {
 					this.hasStar = false;
-					alert('Oh no! You got attacked. You lost your star.')
+					swal("Oh no!", "You got attacked. You lost your star.")
 				} else {
 					this.lives -= 1;
-					alert('Oh no! You got attacked. You lost a life.')
+					swal("Oh no!", "You got attacked. You lost 1 life.")
 				}
 				if (this.lives == 0) {
 					this.hasLost = true;
@@ -363,6 +370,23 @@ export default {
 		padding: 1em;
 		font-family: 'Press Start 2P', cursive;
 		color: red;
+		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
+	}
+
+	.swal-title {
+		font-family: 'Press Start 2P', cursive;
+	}
+
+	.swal-text {
+		font-family: 'Orbitron', sans-serif;
+	}
+	
+	.swal-button {
+		font-family: 'Press Start 2P', cursive;
+		background-color: white;
+		color: rgb(68, 66, 66);
+		border: 1px solid black;
+		border-radius: 10px;
 		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
 	}
 
