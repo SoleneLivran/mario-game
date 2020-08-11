@@ -1,5 +1,5 @@
 <script>
-import swal from 'sweetalert';
+// import swal from 'sweetalert';
 
 export default {
 	name: 'Game', 
@@ -107,6 +107,12 @@ export default {
 		}
 	},
 	methods: {
+		isCellOfType: function(row, column, type) {
+			return this.grid[row-1] && this.grid[row-1][column-1] === type
+		},
+		isMarioOnCell: function(row, column) {
+			return row-1 === this.playerCellRow && column-1 === this.playerCellColumn
+		},
 		generateEmptyCoordinates: function() {
 			let row, column;
 
@@ -167,41 +173,47 @@ export default {
 			}
 		},
 		winGame: function() {
-			setTimeout(() => this.hasWon = true, 100);
+			setTimeout(() => {
+				this.hasWon = true
+			}, 100);
 		},
 		loseGame: function() {
-			setTimeout(() => this.hasLost = true, 100);
+			setTimeout(() => {
+				this.hasLost = true
+			}, 100);
 		},
 		getCoin: function() {
 			this.playerCoins += 1;
-			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			this.grid[this.playerCellRow][this.playerCellColumn] = null
 		},
 		getMushroom: function() {
 			this.lives += 1;
-			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			this.grid[this.playerCellRow][this.playerCellColumn] = null
 			// TODO animation lives
 		},
 		getStar: function() {
 			this.hasStar = true;
-			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			this.grid[this.playerCellRow][this.playerCellColumn] = null
 			// TODO animation character with star ?
 		},
 		fightEnnemy: function() {
-			this.grid[this.playerCellRow][this.playerCellColumn] = '';
 			this.ennemies -= 1;
 			// TODO ennemy animation 
 			if (this.hasStar) {
 				this.hasStar = false;
-				swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
+				// swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
 			} else {
 				this.lives -= 1;
-				if (this.lives > 0) {
-					swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
-				}
+				// if (this.lives > 0) {
+				// 	swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
+				// }
 			}
 			if (this.lives == 0) {
 				this.loseGame();
 			}
+			setTimeout(() => {
+				this.grid[this.playerCellRow][this.playerCellColumn] = null
+			}, 100);
 		}
 	}
 }
@@ -241,13 +253,14 @@ export default {
 						:key="column"
 						class="cell"
 						:class="{
-							'cellStart' : grid[row-1] && grid[row-1][column-1] === 'start',
-							'cellEnd' : grid[row-1] && grid[row-1][column-1] === 'end',
-							'cellCurrent' : row-1 === playerCellRow && column-1 === playerCellColumn,
-							'coinCell' : grid[row-1] && grid[row-1][column-1] === 'coin',
-							'mushroomCell' : grid[row-1] && grid[row-1][column-1] === 'mushroom',
-							'starCell' : grid[row-1] && grid[row-1][column-1] === 'star',
-							'ennemyCell' : grid[row-1] && grid[row-1][column-1] === 'ennemy'
+							'cellStart' : isCellOfType(row, column, 'start'),
+							'cellEnd' : isCellOfType(row, column, 'end'),
+							'cellCurrent' : isMarioOnCell(row, column) && !hasStar,
+							'cellCurrentStar' : isMarioOnCell(row, column) && hasStar,
+							'coinCell' : isCellOfType(row, column, 'coin'),
+							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
+							'starCell' : isCellOfType(row, column, 'star'),
+							'ennemyCellActive' : isCellOfType(row, column, 'ennemy') && isMarioOnCell(row, column),
 						}">
 					</div>
 				</div>
@@ -401,6 +414,13 @@ export default {
 		background-position: center;
 	}
 
+	.cellCurrentStar {
+		background-image: url("../../public/img/mario-star.gif");
+		background-size: 50%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
 	.coinCell::after {
 		content: url("../../public/img/coin.gif");
 	}
@@ -411,6 +431,17 @@ export default {
 
 	.starCell::after {
 		content: url("../../public/img/star.gif");	
+	}
+
+	.ennemyCellActive {
+		background-color: red;
+		animation: ennemy 1s infinite;
+	}
+
+	@keyframes ennemy {
+		0% {background-color: red;}
+		50% {background-color: #00AB00;}
+		100% {background-color: red;}
 	}
 
 	.victory,
