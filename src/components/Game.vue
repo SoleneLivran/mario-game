@@ -266,9 +266,9 @@ export default {
 		</div>
 
 		<div class="footer">
-				<a href="https://github.com/SoleneLivran/mario-game"><i class="fab fa-github"></i> Project's GitHub repo</a>
+				<a href="https://github.com/SoleneLivran/mario-game"><i class="fab fa-github"></i> Project's GitHub repository</a>
 				<a href="https://solenelivran.github.io/"><i class="fas fa-globe"></i> Developer's portfolio</a>
-				<a href="http://www.videogamesprites.net"><i class="fas fa-gamepad"></i> Most images are from Videogamesprites.net </a>
+				<a href="http://www.videogamesprites.net"><i class="fas fa-gamepad"></i> Images: Videogamesprites </a>
 		</div>
 	</div>
 
@@ -288,7 +288,7 @@ export default {
 	a {
 		color: white;
 		text-decoration: none;
-		padding: 1em;
+		margin: 1em;
 	}
 
 	h1 {
