@@ -1,5 +1,4 @@
 <script>
-// import swal from 'sweetalert';
 
 export default {
 	name: 'Game', 
@@ -28,27 +27,27 @@ export default {
 			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
 				e.preventDefault();
 			}
-		}, false);
+		}, false)
 
 		// listener to start new game with enter key
 		window.addEventListener("keyup", (e) => {
 			if([13].indexOf(e.keyCode) > -1) {
 				this.newGame();
 			}
-		}, false);
+		}, false)
 
-		// creation du tableau, cases "undefined"
+		// board creation, "undefined" cells
 		for (let row = 0; row < this.rows; row++) {
-			this.grid.push(new Array(this.columns));
+			this.grid.push(new Array(this.columns))
 		}
 
 		// define start coordinates
 		let startCoord = this.generateEmptyCoordinates();
 		this.grid[startCoord.row][startCoord.column] = 'start'
 
-		// player start cell = game start cell
-		this.playerCellRow = startCoord.row;
-		this.playerCellColumn = startCoord.column;
+		// define player start cell = game start cell
+		this.playerCellRow = startCoord.row
+		this.playerCellColumn = startCoord.column
 
 		// define end coordinates
 		let endCoord = this.generateEmptyCoordinates();
@@ -56,25 +55,25 @@ export default {
 
 		// define coins coordinates
 		for (let coin = 0; coin < this.gameCoins; coin++) {
-			let coinCoord = this.generateEmptyCoordinates();
+			let coinCoord = this.generateEmptyCoordinates()
 			this.grid[coinCoord.row][coinCoord.column] = 'coin'
 		}
 
 		// define mushrooms coordinates
 		for (let mushroom = 0; mushroom < this.mushrooms; mushroom++) {
-			let mushroomCoord = this.generateEmptyCoordinates();
+			let mushroomCoord = this.generateEmptyCoordinates()
 			this.grid[mushroomCoord.row][mushroomCoord.column] = 'mushroom'
 		}
 
 		// define stars coordinates
 		for (let star = 0; star < this.stars; star++) {
-			let starCoord = this.generateEmptyCoordinates();
+			let starCoord = this.generateEmptyCoordinates()
 			this.grid[starCoord.row][starCoord.column] = 'star'
 		}
 
-		// define ennemy coordinates
+		// define ennemies coordinates
 		for (let ennemy = 0; ennemy < this.ennemies; ennemy++) {
-			let ennemyCoord = this.generateEmptyCoordinates();
+			let ennemyCoord = this.generateEmptyCoordinates()
 			this.grid[ennemyCoord.row][ennemyCoord.column] = 'ennemy'
 		}
 	},
@@ -82,19 +81,15 @@ export default {
 		window.removeEventListener('keyup', this.move),
 		window.addEventListener("keydown", function(e) {
 			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-				e.preventDefault();
+				e.preventDefault()
 			}
 		}, false);
 		window.addEventListener("keyup", (e) => {
 			if([13].indexOf(e.keyCode) > -1) {
-				console.log('enter');
-				this.newGame();
+				console.log('enter')
+				this.newGame()
 			}
 		}, false);
-	},
-	mounted() {
-	},
-	computed: {
 	},
 	props: {
 		rows: {
@@ -107,21 +102,23 @@ export default {
 		}
 	},
 	methods: {
+		generateEmptyCoordinates: function() {
+			let row, column
+
+			do {
+				row = Math.ceil(Math.random() * this.rows - 1)
+				column = Math.ceil(Math.random()*this.columns - 1)
+			} while (typeof this.grid[row][column] !== 'undefined')
+
+			return {row, column}
+		},
 		isCellOfType: function(row, column, type) {
+			// TODO start #board loop at 0 so we don't need the -1s
 			return this.grid[row-1] && this.grid[row-1][column-1] === type
 		},
 		isMarioOnCell: function(row, column) {
+			// TODO start #board loop at 0 so we don't need the -1s
 			return row-1 === this.playerCellRow && column-1 === this.playerCellColumn
-		},
-		generateEmptyCoordinates: function() {
-			let row, column;
-
-			do {
-				row = Math.ceil(Math.random() * this.rows - 1);
-				column = Math.ceil(Math.random()*this.columns - 1);
-			} while (typeof this.grid[row][column] !== 'undefined');
-
-			return {row, column};
 		},
 		newGame: function() {
 			if (this.hasWon == true || this.hasLost == true) {
@@ -129,7 +126,7 @@ export default {
 			}
 		},
 		move: function(evt) {
-			let key = evt.code;
+			let key = evt.code
 
 			if (key === 'ArrowRight') {
 				// if (swal.isVisible) {swal.close();}
@@ -157,63 +154,56 @@ export default {
 		},
 		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
-				this.winGame();
+				this.winGame()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
-				this.getCoin();
+				this.getCoin()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
-				this.getMushroom();
+				this.getMushroom()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
-				this.getStar();
+				this.getStar()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
-				this.fightEnnemy();
+				this.fightEnnemy()
 			}
 		},
 		winGame: function() {
 			setTimeout(() => {
 				this.hasWon = true
-			}, 100);
+			}, 100)
 		},
 		loseGame: function() {
 			setTimeout(() => {
 				this.hasLost = true
-			}, 100);
+			}, 100)
 		},
 		getCoin: function() {
 			this.playerCoins += 1;
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
 		},
 		getMushroom: function() {
-			this.lives += 1;
+			this.lives += 1
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
-			// TODO animation lives
 		},
 		getStar: function() {
-			this.hasStar = true;
+			this.hasStar = true
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
-			// TODO animation character with star ?
 		},
 		fightEnnemy: function() {
-			this.ennemies -= 1;
-			// TODO ennemy animation 
+			this.ennemies -= 1
 			if (this.hasStar) {
-				this.hasStar = false;
-				// swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
+				this.hasStar = false
 			} else {
-				this.lives -= 1;
-				// if (this.lives > 0) {
-				// 	swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
-				// }
+				this.lives -= 1
 			}
 			if (this.lives == 0) {
-				this.loseGame();
+				this.loseGame()
 			}
 			setTimeout(() => {
 				this.grid[this.playerCellRow][this.playerCellColumn] = null
-			}, 100);
+			}, 100)
 		}
 	}
 }
@@ -225,12 +215,24 @@ export default {
 		<div id="game" v-if="!hasWon && !hasLost">
 			<div class="rules">
 				<h1>Let's-a-play!</h1>
-				<p><img src="../../public/img/mario-jump.png" alt="mario" width="30px" style="vertical-align:bottom;"> Move with your keyboard's arrow keys</p>
-				<p><span class="coinCell"></span> Collect as many coins as possible and reach the flag!</p>
-				<p><span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i></p>
-				<p><i class="fas fa-skull" style="font-size:1.5em;"></i> Ennemies are hiding. If one finds you, you lose a life</p>
-				<p><span class="starCell"></span> If you find a star, you are protected from the next ennemy</p>
-				<p id="game-over-rule">If your lives get down to zero...game over!</p>
+				<p>
+					<img src="../../public/img/mario-jump.png" alt="mario" width="30px" style="vertical-align:bottom;"> Move with your keyboard's arrow keys
+				</p>
+				<p>
+					<span class="coinCell"></span> Collect as many coins as possible and reach the flag!
+				</p>
+				<p>
+					<span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i>
+				</p>
+				<p>
+					<i class="fas fa-skull" style="font-size:1.5em;"></i> Ennemies are hiding. If one finds you, you lose a life
+				</p>
+				<p>
+					<span class="starCell"></span> If you find a star, you are protected from the next ennemy
+					</p>
+				<p id="game-over-rule">
+					If your lives get down to zero...game over!
+				</p>
 			</div>
 			<div class="stats">
 				<p>
@@ -241,13 +243,11 @@ export default {
 						</li>
 					</transition-group>
 				</p>
-				<!-- TODO transition get / lose a life -->
 				<p>Coins collected: {{playerCoins}}</p>
 				<p>Hidden ennemies: {{ennemies}}</p>
 			</div>
 			<div id="board">
-				<!-- TODO start loop at 0 so we don't need the -1s -->
-				<div v-for="row in rows" class="cellRow" :key="row">
+				<div v-for="row in rows" :key="row" class="cellRow">
 					<div
 						v-for="column in columns"
 						:key="column"
@@ -256,7 +256,7 @@ export default {
 							'cellStart' : isCellOfType(row, column, 'start'),
 							'cellEnd' : isCellOfType(row, column, 'end'),
 							'cellCurrent' : isMarioOnCell(row, column) && !hasStar,
-							'cellCurrentStar' : isMarioOnCell(row, column) && hasStar,
+							'cellCurrentWithStar' : isMarioOnCell(row, column) && hasStar,
 							'coinCell' : isCellOfType(row, column, 'coin'),
 							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
 							'starCell' : isCellOfType(row, column, 'star'),
@@ -268,10 +268,10 @@ export default {
 		</div>
 
 		<div class="victory" v-if="hasWon">
-			<img alt="Vue logo" src="../assets/mushroom.png" width="150px">
+			<img alt="Victory!" src="../assets/mushroom.png" width="150px">
 			<h1>Victory!</h1>
 			<p>
-				Coins collected : {{playerCoins}} / {{gameCoins}}
+				Coins collected: {{playerCoins}} / {{gameCoins}}
 			</p>
 			<button class="newGameButton" @click="newGame">
 				New Game
@@ -279,7 +279,7 @@ export default {
 		</div>
 
 		<div class="game-over" v-if="hasLost">
-			<img alt="Vue logo" src="../assets/plant.png" width="150px">
+			<img alt="Game Over" src="../assets/plant.png" width="150px">
 			<h1>Oh no!</h1>
 			<p>
 				Game Over :(
@@ -371,6 +371,31 @@ export default {
 		padding: 2em 1em 0 1em;
 	}
 
+	.stats li {
+		display: inline-block;
+		margin: 0.1em;
+	}
+
+	.bounce-enter-active {
+		animation: bounce-in 1s;
+	}
+
+	.bounce-leave-active {
+		animation: bounce-in 1s reverse;
+	}
+
+	@keyframes bounce-in {
+		0% {
+			transform: scale(0);
+		}
+		50% {
+			transform: scale(1.5);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+
 	#board {
 		margin-top: 1rem;
 		display: inline-block;
@@ -414,7 +439,7 @@ export default {
 		background-position: center;
 	}
 
-	.cellCurrentStar {
+	.cellCurrentWithStar {
 		background-image: url("../../public/img/mario-star.png");
 		background-size: 80%;
 		background-repeat: no-repeat;
@@ -463,46 +488,5 @@ export default {
 		font-family: 'Press Start 2P', cursive;
 		color: red;
 		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
-	}
-
-	.swal-title {
-		font-family: 'Press Start 2P', cursive;
-	}
-
-	.swal-text {
-		font-family: 'Orbitron', sans-serif;
-	}
-	
-	.swal-button {
-		font-family: 'Press Start 2P', cursive;
-		background-color: white;
-		color: rgb(68, 66, 66);
-		border: 1px solid black;
-		border-radius: 10px;
-		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
-	}
-
-	li {
-		display: inline-block;
-	}
-
-	.bounce-enter-active {
-		animation: bounce-in .5s;
-	}
-
-	.bounce-leave-active {
-		animation: bounce-in .5s reverse;
-	}
-
-	@keyframes bounce-in {
-		0% {
-			transform: scale(0);
-		}
-		50% {
-			transform: scale(1.5);
-		}
-		100% {
-			transform: scale(1);
-		}
 	}
 </style>
