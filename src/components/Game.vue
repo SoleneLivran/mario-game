@@ -150,7 +150,9 @@ export default {
 					swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
 				} else {
 					this.lives -= 1;
-					swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
+					if (this.lives > 0) {
+						swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
+					}
 				}
 				if (this.lives == 0) {
 					this.hasLost = true;
