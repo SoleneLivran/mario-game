@@ -332,7 +332,7 @@ export default {
 	}
 
 	.cellEnd {
-		background-image: url("../../public/img/finish2.png");
+		background-image: url("../../public/img/finish.png");
 		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
