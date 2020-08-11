@@ -265,6 +265,11 @@ export default {
 			</button>
 		</div>
 
+		<div class="footer">
+				<a href="https://github.com/SoleneLivran/mario-game"><i class="fab fa-github"></i> Project's GitHub repo</a>
+				<a href="https://solenelivran.github.io/"><i class="fas fa-globe"></i> Developer's portfolio</a>
+				<a href="http://www.videogamesprites.net"><i class="fas fa-gamepad"></i> Most images are from Videogamesprites.net </a>
+		</div>
 	</div>
 
 </template>
@@ -276,6 +281,16 @@ export default {
 	position: relative;
 	}
 
+	body, html {
+		height:100%;
+	}
+
+	a {
+		color: white;
+		text-decoration: none;
+		padding: 1em;
+	}
+
 	h1 {
 		font-family: 'Press Start 2P', cursive;
 	}
@@ -284,6 +299,17 @@ export default {
 		font-family: 'Orbitron', sans-serif;
 		font-weight: 800;
 		color: white;
+	}
+
+	.footer {
+		font-family: 'Orbitron', sans-serif;
+		display: flex;
+		justify-content: center;
+		padding-top: 50px;
+		margin-top: 2em;
+		height: 50px;
+		font-size: 0.8em;
+		font-weight: 500;
 	}
 
 	.rules {
