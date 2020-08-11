@@ -132,33 +132,15 @@ export default {
 		},
 		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
-				// setTimeout(function() {
-					this.winGame();
-				// }, 500)
+				this.winGame();
 			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
-				this.playerCoins += 1;
-				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+				this.getCoin();
 			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
-				this.lives += 1;
-				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+				this.getMushroom();
 			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
-				this.hasStar = true;
-				this.grid[this.playerCellRow][this.playerCellColumn] = '';
+				this.getStar();
 			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
-				this.grid[this.playerCellRow][this.playerCellColumn] = '';
-				this.ennemies -= 1;
-				if (this.hasStar) {
-					this.hasStar = false;
-					swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
-				} else {
-					this.lives -= 1;
-					if (this.lives > 0) {
-						swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
-					}
-				}
-				if (this.lives == 0) {
-					this.hasLost = true;
-				}
+				this.fightEnnemy();
 			}
 		},
 		newGame: function() {
@@ -169,6 +151,37 @@ export default {
 		winGame: function() {
 			setTimeout(() => this.hasWon = true, 100);
 		},
+		loseGame: function() {
+			setTimeout(() => this.hasLost = true, 100);
+		},
+		getCoin: function() {
+			this.playerCoins += 1;
+			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+		},
+		getMushroom: function() {
+			this.lives += 1;
+			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+		},
+		getStar: function() {
+			this.hasStar = true;
+			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+		},
+		fightEnnemy: function() {
+			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			this.ennemies -= 1;
+			if (this.hasStar) {
+				this.hasStar = false;
+				swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
+			} else {
+				this.lives -= 1;
+				if (this.lives > 0) {
+					swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
+				}
+			}
+			if (this.lives == 0) {
+				this.loseGame();
+			}
+		}
 	}
 }
 </script>
