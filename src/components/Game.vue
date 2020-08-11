@@ -105,19 +105,24 @@ export default {
 		move: function(evt) {
 			let key = evt.code;
 
+
 			if (key === 'ArrowRight') {
+				// if (swal.isVisible) {swal.close();}
 				if (this.playerCellColumn < this.columns - 1) {
 					this.playerCellColumn += 1
 				}
 			} else if (key === 'ArrowLeft') {
+				// swal.close();
 				if (this.playerCellColumn > 0) {
 					this.playerCellColumn -= 1
 				}
 			} else if (key == 'ArrowUp') {
+				// swal.close();
 				if (this.playerCellRow > 0) {
 					this.playerCellRow -= 1
 				}
 			} else if (key == 'ArrowDown') {
+				// swal.close();
 				if (this.playerCellRow < this.rows - 1) {
 					this.playerCellRow += 1
 				}
@@ -142,10 +147,10 @@ export default {
 				this.ennemies -= 1;
 				if (this.hasStar) {
 					this.hasStar = false;
-					swal("Oh no!", "You got attacked. You lost your star.")
+					swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
 				} else {
 					this.lives -= 1;
-					swal("Oh no!", "You got attacked. You lost 1 life.")
+					swal("Oh no!", "You got attacked. You lost 1 life.", {timer: 1500,})
 				}
 				if (this.lives == 0) {
 					this.hasLost = true;
