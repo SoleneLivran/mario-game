@@ -20,11 +20,20 @@ export default {
 		}
 	},
 	created() {
+		// listener for moves
 		window.addEventListener('keyup', this.move)
 
+		// listener to prevent scroll with arrows
 		window.addEventListener("keydown", function(e) {
 			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
 				e.preventDefault();
+			}
+		}, false);
+
+		// listener to start new game with enter key
+		window.addEventListener("keyup", (e) => {
+			if([13].indexOf(e.keyCode) > -1) {
+				this.newGame();
 			}
 		}, false);
 
@@ -76,6 +85,12 @@ export default {
 				e.preventDefault();
 			}
 		}, false);
+		window.addEventListener("keyup", (e) => {
+			if([13].indexOf(e.keyCode) > -1) {
+				console.log('enter');
+				this.newGame();
+			}
+		}, false);
 	},
 	mounted() {
 	},
@@ -102,9 +117,13 @@ export default {
 
 			return {row, column};
 		},
+		newGame: function() {
+			if (this.hasWon == true || this.hasLost == true) {
+				window.location.reload()
+			}
+		},
 		move: function(evt) {
 			let key = evt.code;
-
 
 			if (key === 'ArrowRight') {
 				// if (swal.isVisible) {swal.close();}
@@ -133,19 +152,18 @@ export default {
 		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				this.winGame();
-			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
-				this.getCoin();
-			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
-				this.getMushroom();
-			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
-				this.getStar();
-			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
-				this.fightEnnemy();
 			}
-		},
-		newGame: function() {
-			if (this.hasWon == true || this.hasLost == true) {
-				window.location.reload()
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
+				this.getCoin();
+			}
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
+				this.getMushroom();
+			}
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
+				this.getStar();
+			}
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
+				this.fightEnnemy();
 			}
 		},
 		winGame: function() {
