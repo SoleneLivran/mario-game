@@ -132,7 +132,9 @@ export default {
 		},
 		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
-				this.hasWon = true;
+				// setTimeout(function() {
+					this.winGame();
+				// }, 500)
 			} else if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
 				this.playerCoins += 1;
 				this.grid[this.playerCellRow][this.playerCellColumn] = '';
@@ -163,7 +165,10 @@ export default {
 			if (this.hasWon == true || this.hasLost == true) {
 				window.location.reload()
 			}
-		}
+		},
+		winGame: function() {
+			setTimeout(() => this.hasWon = true, 100);
+		},
 	}
 }
 </script>
