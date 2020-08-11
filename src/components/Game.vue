@@ -321,25 +321,6 @@ export default {
 		padding: 2em 1em 0 1em;
 	}
 
-	#userCode {
-		padding: 1rem;
-		font-family: monospace;
-		background-color: black;
-		color: greenyellow;
-		font-size: 1.4rem;
-		width: 100%;
-		height: 10rem;
-	}
-
-	#launchScript {
-		background-color: greenyellow;
-		border: 0;
-		margin: 0.625rem 0;
-		padding: 0.625rem;
-		border-radius: 0.3rem;
-		cursor: pointer;
-	}
-
 	#board {
 		margin-top: 1rem;
 		display: inline-block;
