@@ -415,8 +415,8 @@ export default {
 	}
 
 	.cellCurrentStar {
-		background-image: url("../../public/img/mario-star.gif");
-		background-size: 50%;
+		background-image: url("../../public/img/mario-star.png");
+		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
