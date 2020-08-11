@@ -179,14 +179,17 @@ export default {
 		getMushroom: function() {
 			this.lives += 1;
 			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			// TODO animation lives
 		},
 		getStar: function() {
 			this.hasStar = true;
 			this.grid[this.playerCellRow][this.playerCellColumn] = '';
+			// TODO animation character with star ?
 		},
 		fightEnnemy: function() {
 			this.grid[this.playerCellRow][this.playerCellColumn] = '';
 			this.ennemies -= 1;
+			// TODO ennemy animation 
 			if (this.hasStar) {
 				this.hasStar = false;
 				swal("Oh no!", "You got attacked. You lost your star.", {timer: 1500,})
@@ -218,7 +221,15 @@ export default {
 				<p id="game-over-rule">If your lives get down to zero...game over!</p>
 			</div>
 			<div class="stats">
-				<p>Lives : <span v-for="i in lives" :key="i"> <i class="fas fa-heart" style="color:red;"></i> </span></p>
+				<p>
+					Lives: 
+					<transition-group name="bounce">
+						<li v-for="life in lives" :key="life">
+							<i class="fas fa-heart" style="color:red;"></i>
+						</li>
+					</transition-group>
+				</p>
+				<!-- TODO transition get / lose a life -->
 				<p>Coins collected: {{playerCoins}}</p>
 				<p>Hidden ennemies: {{ennemies}}</p>
 			</div>
@@ -440,5 +451,27 @@ export default {
 		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
 	}
 
+	li {
+		display: inline-block;
+	}
 
+	.bounce-enter-active {
+		animation: bounce-in .5s;
+	}
+
+	.bounce-leave-active {
+		animation: bounce-in .5s reverse;
+	}
+
+	@keyframes bounce-in {
+		0% {
+			transform: scale(0);
+		}
+		50% {
+			transform: scale(1.5);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
 </style>
