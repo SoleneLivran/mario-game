@@ -268,7 +268,7 @@ export default {
 		</div>
 
 		<div class="victory" v-if="hasWon">
-			<img alt="Victory!" src="../assets/mushroom.png" width="150px">
+			<img alt="Victory!" src="../../public/img/mushroom.png" width="150px">
 			<h1>Victory!</h1>
 			<p>
 				Coins collected: {{playerCoins}} / {{gameCoins}}
@@ -279,7 +279,7 @@ export default {
 		</div>
 
 		<div class="game-over" v-if="hasLost">
-			<img alt="Game Over" src="../assets/plant.png" width="150px">
+			<img alt="Game Over" src="../../public/img/plant.png" width="150px">
 			<h1>Oh no!</h1>
 			<p>
 				Game Over :(
