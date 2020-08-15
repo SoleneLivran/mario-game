@@ -20,10 +20,24 @@ export default {
 	},
 	computed: {
 		canMove: function () {
-			if (this.grid[this.playerCellRow][this.playerCellColumn] !== 'end' && this.lives > 0 && this.grid[this.playerCellRow][this.playerCellColumn] !== 'ennemy') {
-				return true
-			} else {
+			// if (this.grid[this.playerCellRow][this.playerCellColumn] !== 'end'
+			// 	&& this.lives > 0
+			// 	&& this.grid[this.playerCellRow][this.playerCellColumn] !== 'ennemy')
+			// {
+			// 	return true
+			// } else {
+			// 	return false
+			// }
+
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				return false
+			}
+			if (this.lives < 1 && this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy')
+			{
+				return false
+			}
+			else {
+				return true
 			}
 		}
 	},
@@ -135,27 +149,22 @@ export default {
 			}
 		},
 		move: function(evt) {
-			// if (this.grid[this.playerCellRow][this.playerCellColumn] !== 'end') {
 			if (this.canMove) {
 				let key = evt.code
 
 				if (key === 'ArrowRight') {
-					// if (swal.isVisible) {swal.close();}
 					if (this.playerCellColumn < this.columns - 1) {
 						this.playerCellColumn += 1
 					}
 				} else if (key === 'ArrowLeft') {
-					// swal.close();
 					if (this.playerCellColumn > 0) {
 						this.playerCellColumn -= 1
 					}
 				} else if (key == 'ArrowUp') {
-					// swal.close();
 					if (this.playerCellRow > 0) {
 						this.playerCellRow -= 1
 					}
 				} else if (key == 'ArrowDown') {
-					// swal.close();
 					if (this.playerCellRow < this.rows - 1) {
 						this.playerCellRow += 1
 					}
@@ -273,6 +282,7 @@ export default {
 							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
 							'starCell' : isCellOfType(row, column, 'star'),
 							'ennemyCellActive' : isCellOfType(row, column, 'ennemy') && isMarioOnCell(row, column),
+							'cellGameOver' : isMarioOnCell(row, column) && hasLost // ? cancels the canMove false and style + class not activated
 						}">
 					</div>
 				</div>
@@ -449,6 +459,18 @@ export default {
 		background-size: 70%;
 		background-repeat: no-repeat;
 		background-position: center;
+	}
+
+	.cellEnd.cellCurrent {
+		background-color: fuchsia;
+		background-image: url("../../public/img/plant.png");
+		background-size: 70%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.cellGameOver {
+		background-color: blue;
 	}
 
 	.cellCurrentWithStar {
