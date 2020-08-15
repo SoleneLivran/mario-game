@@ -18,6 +18,15 @@ export default {
 			hasLost: false,
 		}
 	},
+	computed: {
+		canMove: function () {
+			if (this.grid[this.playerCellRow][this.playerCellColumn] !== 'end' && this.lives > 0 && this.grid[this.playerCellRow][this.playerCellColumn] !== 'ennemy') {
+				return true
+			} else {
+				return false
+			}
+		}
+	},
 	created() {
 		// listener for moves
 		window.addEventListener('keyup', this.move)
@@ -126,27 +135,30 @@ export default {
 			}
 		},
 		move: function(evt) {
-			let key = evt.code
+			// if (this.grid[this.playerCellRow][this.playerCellColumn] !== 'end') {
+			if (this.canMove) {
+				let key = evt.code
 
-			if (key === 'ArrowRight') {
-				// if (swal.isVisible) {swal.close();}
-				if (this.playerCellColumn < this.columns - 1) {
-					this.playerCellColumn += 1
-				}
-			} else if (key === 'ArrowLeft') {
-				// swal.close();
-				if (this.playerCellColumn > 0) {
-					this.playerCellColumn -= 1
-				}
-			} else if (key == 'ArrowUp') {
-				// swal.close();
-				if (this.playerCellRow > 0) {
-					this.playerCellRow -= 1
-				}
-			} else if (key == 'ArrowDown') {
-				// swal.close();
-				if (this.playerCellRow < this.rows - 1) {
-					this.playerCellRow += 1
+				if (key === 'ArrowRight') {
+					// if (swal.isVisible) {swal.close();}
+					if (this.playerCellColumn < this.columns - 1) {
+						this.playerCellColumn += 1
+					}
+				} else if (key === 'ArrowLeft') {
+					// swal.close();
+					if (this.playerCellColumn > 0) {
+						this.playerCellColumn -= 1
+					}
+				} else if (key == 'ArrowUp') {
+					// swal.close();
+					if (this.playerCellRow > 0) {
+						this.playerCellRow -= 1
+					}
+				} else if (key == 'ArrowDown') {
+					// swal.close();
+					if (this.playerCellRow < this.rows - 1) {
+						this.playerCellRow += 1
+					}
 				}
 			}
 
@@ -172,12 +184,12 @@ export default {
 		winGame: function() {
 			setTimeout(() => {
 				this.hasWon = true
-			}, 100)
+			}, 1000)
 		},
 		loseGame: function() {
 			setTimeout(() => {
 				this.hasLost = true
-			}, 100)
+			}, 2000)
 		},
 		getCoin: function() {
 			this.playerCoins += 1;
