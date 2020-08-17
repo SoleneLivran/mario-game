@@ -33,6 +33,7 @@ export default {
 				return false
 			}
 			if (this.lives < 1 && this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy')
+			// ? working ?
 			{
 				return false
 			}
@@ -193,12 +194,12 @@ export default {
 		winGame: function() {
 			setTimeout(() => {
 				this.hasWon = true
-			}, 1000)
+			}, 750)
 		},
 		loseGame: function() {
 			setTimeout(() => {
 				this.hasLost = true
-			}, 2000)
+			}, 750)
 		},
 		getCoin: function() {
 			this.playerCoins += 1;
@@ -462,16 +463,15 @@ export default {
 	}
 
 	.cellEnd.cellCurrent {
-		background-color: fuchsia;
-		background-image: url("../../public/img/plant.png");
-		background-size: 70%;
+		background-image: url("../../public/img/trophy.png");
+		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
 
-	.cellGameOver {
+	/* .cellGameOver {
 		background-color: blue;
-	}
+	} */
 
 	.cellCurrentWithStar {
 		background-image: url("../../public/img/mario-star.png");
