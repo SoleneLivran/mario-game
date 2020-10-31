@@ -183,7 +183,7 @@ export default {
 		loseGame: function() {
 			setTimeout(() => {
 				this.hasLost = true
-			}, 750)
+			}, 1500)
 		},
 		getCoin: function() {
 			this.playerCoins += 1;
