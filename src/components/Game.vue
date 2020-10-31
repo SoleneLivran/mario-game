@@ -12,7 +12,7 @@ export default {
 			mushrooms: 2,
 			stars: 1,
 			hasStar: false,
-			ennemies: 4,
+			enemies: 4,
 			lives: 3,
 			hasWon: false,
 			hasLost: false,
@@ -20,25 +20,11 @@ export default {
 	},
 	computed: {
 		canMove: function () {
-			// if (this.grid[this.playerCellRow][this.playerCellColumn] !== 'end'
-			// 	&& this.lives > 0
-			// 	&& this.grid[this.playerCellRow][this.playerCellColumn] !== 'ennemy')
-			// {
-			// 	return true
-			// } else {
-			// 	return false
-			// }
-
-			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
-				return false
-			}
-			if (this.lives < 1)
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end')
 			{
 				return false
 			}
-			else {
-				return true
-			}
+			return this.lives >= 1;
 		}
 	},
 	created() {
@@ -47,14 +33,14 @@ export default {
 
 		// listener to prevent scroll with arrows
 		window.addEventListener("keydown", function(e) {
-			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+			if(["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
 				e.preventDefault();
 			}
 		}, false)
 
 		// listener to start new game with enter key
 		window.addEventListener("keyup", (e) => {
-			if([13].indexOf(e.keyCode) > -1) {
+			if(["Enter"].indexOf(e.key) !== -1) {
 				this.newGame();
 			}
 		}, false)
@@ -94,25 +80,24 @@ export default {
 			this.grid[starCoord.row][starCoord.column] = 'star'
 		}
 
-		// define ennemies coordinates
-		for (let ennemy = 0; ennemy < this.ennemies; ennemy++) {
-			let ennemyCoord = this.generateEmptyCoordinates()
-			this.grid[ennemyCoord.row][ennemyCoord.column] = 'ennemy'
+		// define enemies coordinates
+		for (let enemy = 0; enemy < this.enemies; enemy++) {
+			let enemyCoord = this.generateEmptyCoordinates()
+			this.grid[enemyCoord.row][enemyCoord.column] = 'enemy'
 		}
 	},
 	destroyed() {
-		window.removeEventListener('keyup', this.move),
+		window.removeEventListener('keyup', this.move)
 		window.addEventListener("keydown", function(e) {
-			if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+			if(["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
 				e.preventDefault()
 			}
-		}, false);
+		}, false)
 		window.addEventListener("keyup", (e) => {
-			if([13].indexOf(e.keyCode) > -1) {
-				console.log('enter')
+			if(["Enter"].indexOf(e.key) !== -1) {
 				this.newGame()
 			}
-		}, false);
+		}, false)
 	},
 	props: {
 		rows: {
@@ -144,7 +129,7 @@ export default {
 			return row-1 === this.playerCellRow && column-1 === this.playerCellColumn
 		},
 		newGame: function() {
-			if (this.hasWon == true || this.hasLost == true) {
+			if (this.hasWon === true || this.hasLost === true) {
 				window.location.reload()
 			}
 		},
@@ -160,11 +145,11 @@ export default {
 					if (this.playerCellColumn > 0) {
 						this.playerCellColumn -= 1
 					}
-				} else if (key == 'ArrowUp') {
+				} else if (key === 'ArrowUp') {
 					if (this.playerCellRow > 0) {
 						this.playerCellRow -= 1
 					}
-				} else if (key == 'ArrowDown') {
+				} else if (key === 'ArrowDown') {
 					if (this.playerCellRow < this.rows - 1) {
 						this.playerCellRow += 1
 					}
@@ -186,8 +171,8 @@ export default {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
 				this.getStar()
 			}
-			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy') {
-				this.fightEnnemy()
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'enemy') {
+				this.fightEnemy()
 			}
 		},
 		winGame: function() {
@@ -212,14 +197,14 @@ export default {
 			this.hasStar = true
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
 		},
-		fightEnnemy: function() {
-			this.ennemies -= 1
+		fightEnemy: function() {
+			this.enemies -= 1
 			if (this.hasStar) {
 				this.hasStar = false
 			} else {
 				this.lives -= 1
 			}
-			if (this.lives == 0) {
+			if (this.lives === 0) {
 				this.loseGame()
 			}
 			this.$nextTick(() => {
@@ -246,10 +231,10 @@ export default {
 					<span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i>
 				</p>
 				<p>
-					<i class="fas fa-skull" style="font-size:1.5em;"></i> Ennemies are hiding. If one finds you, you lose a life
+					<i class="fas fa-skull" style="font-size:1.5em;"></i> Enemies are hiding. If one finds you, you lose a life
 				</p>
 				<p>
-					<span class="starCell"></span> If you find a star, you are protected from the next ennemy
+					<span class="starCell"></span> If you find a star, you are protected from the next enemy
 					</p>
 				<p id="game-over-rule">
 					If your lives get down to zero...game over!
@@ -265,7 +250,7 @@ export default {
 					</transition-group>
 				</p>
 				<p>Coins collected: {{playerCoins}}</p>
-				<p>Hidden ennemies: {{ennemies}}</p>
+				<p>Hidden enemies: {{enemies}}</p>
 			</div>
 			<div id="board">
 				<div v-for="row in rows" :key="row" class="cellRow">
@@ -281,7 +266,7 @@ export default {
 							'coinCell' : isCellOfType(row, column, 'coin'),
 							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
 							'starCell' : isCellOfType(row, column, 'star'),
-							'ennemyCellActive' : isCellOfType(row, column, 'ennemy') && isMarioOnCell(row, column),
+							'enemyCellActive' : isCellOfType(row, column, 'enemy') && isMarioOnCell(row, column),
 							'cellGameOver' : isMarioOnCell(row, column) && (lives === 0)
 						}">
 					</div>
@@ -376,12 +361,12 @@ export default {
 	}
 
 	.rules h1 {
-		text-shadow: 3px 6px 0px rgba(0, 0, 0, 1);
+		text-shadow: 3px 6px 0 rgba(0, 0, 0, 1);
 	}
 
 	.rules #game-over-rule {
 		font-size: 1.1em;
-		text-shadow: 1px 3px 0px rgba(0, 0, 0, 1);
+		text-shadow: 1px 3px 0 rgba(0, 0, 0, 1);
 	}
 
 	.stats {
@@ -495,12 +480,12 @@ export default {
 		content: url("../../public/img/star.gif");	
 	}
 
-	.ennemyCellActive {
+	.enemyCellActive {
 		background-color: red;
-		animation: ennemy 1s infinite;
+		animation: enemy 1s infinite;
 	}
 
-	@keyframes ennemy {
+	@keyframes enemy {
 		0% {background-color: red;}
 		50% {background-color: #00AB00;}
 		100% {background-color: red;}
@@ -524,6 +509,6 @@ export default {
 		padding: 1em;
 		font-family: 'Press Start 2P', cursive;
 		color: red;
-		box-shadow: 4px 5px 0px rgba(0, 0, 0, 1);
+		box-shadow: 4px 5px 0 rgba(0, 0, 0, 1);
 	}
 </style>
