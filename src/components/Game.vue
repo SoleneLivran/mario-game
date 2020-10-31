@@ -32,8 +32,7 @@ export default {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				return false
 			}
-			if (this.lives < 1 && this.grid[this.playerCellRow][this.playerCellColumn] === 'ennemy')
-			// ? working ?
+			if (this.lives < 1)
 			{
 				return false
 			}
@@ -223,9 +222,9 @@ export default {
 			if (this.lives == 0) {
 				this.loseGame()
 			}
-			setTimeout(() => {
+			this.$nextTick(() => {
 				this.grid[this.playerCellRow][this.playerCellColumn] = null
-			}, 100)
+			})
 		}
 	}
 }
@@ -283,7 +282,7 @@ export default {
 							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
 							'starCell' : isCellOfType(row, column, 'star'),
 							'ennemyCellActive' : isCellOfType(row, column, 'ennemy') && isMarioOnCell(row, column),
-							'cellGameOver' : isMarioOnCell(row, column) && hasLost // ? cancels the canMove false and style + class not activated
+							'cellGameOver' : isMarioOnCell(row, column) && (lives === 0)
 						}">
 					</div>
 				</div>
@@ -462,16 +461,20 @@ export default {
 		background-position: center;
 	}
 
-	.cellEnd.cellCurrent {
+	.cellEnd.cellCurrent,
+	.cellEnd.cellCurrentWithStar {
 		background-image: url("../../public/img/trophy.png");
 		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
 
-	/* .cellGameOver {
-		background-color: blue;
-	} */
+	.cellGameOver {
+		background-image: url("../../public/img/skull.png");
+		background-size: 80%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
 
 	.cellCurrentWithStar {
 		background-image: url("../../public/img/mario-star.png");
