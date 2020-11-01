@@ -187,18 +187,23 @@ export default {
 		},
 		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
+				this.playSound('win')
 				this.winGame()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
+				this.playSound('coin')
 				this.getCoin()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
+				this.playSound('mushroom')
 				this.getMushroom()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
+				this.playSound('star')
 				this.getStar()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'enemy') {
+				this.playSound('enemy')
 				this.fightEnemy()
 			}
 		},
@@ -237,6 +242,16 @@ export default {
 			this.$nextTick(() => {
 				this.grid[this.playerCellRow][this.playerCellColumn] = null
 			})
+		},
+		playSound: function(soundName) {
+			let sounds = {
+				coin: 		new Audio('/sound/coin.mp3'),
+				mushroom: 	new Audio('/sound/mushroom.mp3'),
+				enemy: 		new Audio('/sound/enemy.mp3'),
+				star:		new Audio('/sound/star.mp3'),
+				win:		new Audio('/sound/win.mp3'),
+			};
+			sounds[soundName].play()
 		}
 	}
 }
