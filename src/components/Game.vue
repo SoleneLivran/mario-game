@@ -28,8 +28,8 @@ export default {
 		}
 	},
 	created() {
-		// listener for moves
-		window.addEventListener('keyup', this.move)
+		// listener for moves with keyboard
+		window.addEventListener('keyup', this.onKeyUp)
 
 		// listener to prevent scroll with arrows
 		window.addEventListener("keydown", function(e) {
@@ -87,7 +87,7 @@ export default {
 		}
 	},
 	destroyed() {
-		window.removeEventListener('keyup', this.move)
+		window.removeEventListener('keyup', this.onKeyUp)
 		window.addEventListener("keydown", function(e) {
 			if(["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
 				e.preventDefault()
@@ -133,7 +133,34 @@ export default {
 				window.location.reload()
 			}
 		},
-		move: function(evt) {
+		onCellClick: function (row, column) {
+			// TODO start #board loop at 0 so we don't need the -1s
+			if (this.canMove) {
+				if (row-1 === this.playerCellRow && column-1 === (this.playerCellColumn -1)) {
+					if (this.playerCellColumn > 0) {
+						this.playerCellColumn -= 1
+					}
+				}
+				if (row-1 === this.playerCellRow && column-1 === (this.playerCellColumn +1)) {
+					if (this.playerCellColumn < this.columns - 1) {
+						this.playerCellColumn += 1
+					}
+				}
+				if (column-1 === this.playerCellColumn && row-1 === (this.playerCellRow -1)) {
+					if (this.playerCellRow > 0) {
+						this.playerCellRow -= 1
+					}
+				}
+				if (column-1 === this.playerCellColumn && row-1 === (this.playerCellRow +1)) {
+					if (this.playerCellRow < this.rows - 1) {
+						this.playerCellRow += 1
+					}
+				}
+
+				this.checkCell();
+			}
+		},
+		onKeyUp: function(evt) {
 			if (this.canMove) {
 				let key = evt.code
 
@@ -268,7 +295,8 @@ export default {
 							'starCell' : isCellOfType(row, column, 'star'),
 							'enemyCellActive' : isCellOfType(row, column, 'enemy') && isMarioOnCell(row, column),
 							'cellGameOver' : isMarioOnCell(row, column) && (lives === 0)
-						}">
+						}"
+						@click="onCellClick(row, column)">
 					</div>
 				</div>
 			</div>
