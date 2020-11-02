@@ -220,6 +220,9 @@ export default {
 			}, 750)
 		},
 		loseGame: function() {
+			if (this.soundOn) {
+				this.backgroundMusic.volume = 0;
+			}
 			this.playSound('gameover')
 			setTimeout(() => {
 				this.hasLost = true
