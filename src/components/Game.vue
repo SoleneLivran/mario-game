@@ -211,7 +211,9 @@ export default {
 			}
 		},
 		winGame: function() {
-			this.backgroundMusic.volume = 0;
+			if (this.soundOn) {
+				this.backgroundMusic.volume = 0;
+			}
 			this.playSound('win')
 			setTimeout(() => {
 				this.hasWon = true
