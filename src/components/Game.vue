@@ -245,6 +245,10 @@ export default {
 			})
 		},
 		playSound: function(soundName) {
+			if (!this.soundOn) {
+				return
+			}
+
 			let sounds = {
 				coin: 		new Audio('/sound/coin2.mp3'),
 				mushroom: 	new Audio('/sound/mushroom.mp3'),
@@ -317,6 +321,20 @@ export default {
 						@click="onCellClick(row, column)">
 					</div>
 				</div>
+			</div>
+			<div id="soundParameters">
+				<button
+						class="soundButton"
+						v-if="soundOn === false"
+						@click="soundOn = true">
+						Activer les sons
+				</button>
+				<button
+						v-if="soundOn === true"
+						class="soundButton"
+						@click="soundOn = false">
+						Désactiver les sons
+				</button>
 			</div>
 		</div>
 
