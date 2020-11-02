@@ -1,5 +1,4 @@
 <script>
-
 export default {
 	name: 'Game', 
 	data() {
@@ -17,6 +16,8 @@ export default {
 			hasWon: false,
 			hasLost: false,
 			soundOn: false,
+			musicOn: false,
+			backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
 		}
 	},
 	computed: {
@@ -26,6 +27,9 @@ export default {
 			}
 			return this.lives >= 1;
 		}
+	},
+	mounted() {
+		this.playBackgroundMusic()
 	},
 	created() {
 		// listener for moves with keyboard
@@ -207,6 +211,7 @@ export default {
 			}
 		},
 		winGame: function() {
+			this.backgroundMusic.volume = 0;
 			this.playSound('win')
 			setTimeout(() => {
 				this.hasWon = true
@@ -259,6 +264,23 @@ export default {
 			}
 
 			sounds[soundName].play()
+		},
+		playBackgroundMusic: function() {
+			this.backgroundMusic.loop = true;
+			this.backgroundMusic.volume = 0.3;
+			if (!this.musicOn) {
+				this.backgroundMusic.pause()
+			} else {
+				this.backgroundMusic.play()
+			}
+		},
+		onMusicClick: function() {
+			if (this.musicOn === false) {
+				this.musicOn = true
+			} else {
+				this.musicOn = false
+			}
+			this.playBackgroundMusic()
 		}
 	}
 }
@@ -289,6 +311,38 @@ export default {
 					If your lives get down to zero...game over!
 				</p>
 			</div>
+
+			<div id="soundParameters">
+				<div class="music">
+					<button
+							class="soundButton musicButtonOff"
+							v-if="musicOn === false"
+							@click="onMusicClick">
+						Music <span><i class="fas fa-volume-mute"></i></span>
+					</button>
+					<button
+							class="soundButton musicButtonOn"
+							v-if="musicOn === true"
+							@click="onMusicClick">
+						Music <span><i class="fas fa-music"></i></span>
+					</button>
+				</div>
+				<div class="soundEffects">
+					<button
+							class="soundButton soundsButtonOff"
+							v-if="soundOn === false"
+							@click="soundOn = true">
+						Sounds <span><i class="fas fa-volume-mute"></i></span>
+					</button>
+					<button
+							class="soundButton soundsButtonOn"
+							v-if="soundOn === true"
+							@click="soundOn = false">
+						Sounds <span><i class="fas fa-volume-up"></i></span>
+					</button>
+				</div>
+			</div>
+
 			<div class="stats">
 				<p>
 					Lives: 
@@ -301,6 +355,7 @@ export default {
 				<p>Coins collected: {{playerCoins}}</p>
 				<p>Hidden enemies: {{enemies}}</p>
 			</div>
+
 			<div id="board">
 				<div v-for="row in rows" :key="row" class="cellRow">
 					<div
@@ -321,20 +376,6 @@ export default {
 						@click="onCellClick(row, column)">
 					</div>
 				</div>
-			</div>
-			<div id="soundParameters">
-				<button
-						class="soundButton"
-						v-if="soundOn === false"
-						@click="soundOn = true">
-						Activer les sons
-				</button>
-				<button
-						v-if="soundOn === true"
-						class="soundButton"
-						@click="soundOn = false">
-						Désactiver les sons
-				</button>
 			</div>
 		</div>
 
@@ -418,6 +459,7 @@ export default {
 		border-left: 2px solid #FFBFB3;
 		border-bottom: 3px solid #120F16;
 		border-right: 3px solid #120F16;
+		margin-bottom: 1em;
 	}
 
 	.rules #game-over-rule, h1 {
@@ -436,10 +478,11 @@ export default {
 	.stats {
 		display: flex;
 		justify-content: center;
+		margin-top: 2em;
 	}
 
 	.stats p {
-		padding: 2em 1em 0 1em;
+		padding: 0 1em 0 1em;
 	}
 
 	.stats li {
@@ -575,4 +618,30 @@ export default {
 		color: red;
 		box-shadow: 4px 5px 0 rgba(0, 0, 0, 1);
 	}
+
+	#soundParameters {
+		display: flex;
+		justify-content: center;
+	}
+
+	#soundParameters div {
+		padding: 0 1em 0 1em;
+	}
+
+	.soundButton {
+		border: none;
+		background-color: transparent;
+		color: white;
+		outline: none;
+		font-size: 100%;
+		font-family: inherit;
+		font-weight: inherit;
+		padding: 0;
+		margin: 0;
+	}
+
+	.soundButton span {
+		font-size: 1.5em;
+	}
+
 </style>
