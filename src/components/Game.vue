@@ -16,12 +16,12 @@ export default {
 			lives: 3,
 			hasWon: false,
 			hasLost: false,
+			soundOn: false,
 		}
 	},
 	computed: {
 		canMove: function () {
-			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end')
-			{
+			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				return false
 			}
 			return this.lives >= 1;
@@ -33,14 +33,14 @@ export default {
 
 		// listener to prevent scroll with arrows
 		window.addEventListener("keydown", function(e) {
-			if(["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
+			if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
 				e.preventDefault();
 			}
 		}, false)
 
 		// listener to start new game with enter key
 		window.addEventListener("keyup", (e) => {
-			if(["Enter"].indexOf(e.key) !== -1) {
+			if (["Enter"].indexOf(e.key) !== -1) {
 				this.newGame();
 			}
 		}, false)
@@ -89,12 +89,12 @@ export default {
 	destroyed() {
 		window.removeEventListener('keyup', this.onKeyUp)
 		window.addEventListener("keydown", function(e) {
-			if(["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
+			if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
 				e.preventDefault()
 			}
 		}, false)
 		window.addEventListener("keyup", (e) => {
-			if(["Enter"].indexOf(e.key) !== -1) {
+			if (["Enter"].indexOf(e.key) !== -1) {
 				this.newGame()
 			}
 		}, false)
@@ -200,8 +200,9 @@ export default {
 				this.getStar()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'enemy') {
-				if (this.lives > 1)
-					{this.playSound('enemy')}
+				if (this.lives > 1) {
+					this.playSound('enemy')
+				}
 				this.fightEnemy()
 			}
 		},
@@ -251,7 +252,8 @@ export default {
 				star:		new Audio('/sound/star.mp3'),
 				win:		new Audio('/sound/win.mp3'),
 				gameover:	new Audio('/sound/gameover.mp3'),
-			};
+			}
+
 			sounds[soundName].play()
 		}
 	}
