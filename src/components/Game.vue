@@ -137,7 +137,7 @@ export default {
 		newGame: function() {
 			if (this.hasWon === true || this.hasLost === true) {
 				this.$emit('reload-game')
-				this.$emit('unmute-music')
+				this.$emit('unpause-music')
 			}
 		},
 		onCellClick: function (row, column) {
@@ -215,7 +215,7 @@ export default {
 		},
 		winGame: function() {
 			if (this.soundOn) {
-				this.$emit('mute-music')
+				this.$emit('pause-music')
 			}
 			this.$emit('play-sound', 'win')
 			setTimeout(() => {
@@ -224,7 +224,7 @@ export default {
 		},
 		loseGame: function() {
 			if (this.soundOn) {
-				this.$emit('mute-music')
+				this.$emit('pause-music')
 			}
 			this.$emit('play-sound', 'gameover')
 			setTimeout(() => {

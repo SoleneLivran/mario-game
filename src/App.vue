@@ -8,8 +8,8 @@
             @reload-game="reloadGame"
             @toggle-sound="toggleSound"
             @toggle-music="toggleMusic"
-            @mute-music="muteMusic"
-            @unmute-music="unmuteMusic">
+            @pause-music="pauseMusic"
+            @unpause-music="unpauseMusic">
     </Game>
   </div>
 </template>
@@ -69,11 +69,11 @@ export default {
     toggleMusic: function () {
       this.musicOn = !this.musicOn
     },
-    muteMusic: function () {
-      this.backgroundMusic.volume = 0
+    pauseMusic: function () {
+      this.backgroundMusic.pause()
     },
-    unmuteMusic: function () {
-      this.backgroundMusic.volume = this.musicVolume
+    unpauseMusic: function () {
+      this.backgroundMusic.play()
     }
   },
   watch: {
