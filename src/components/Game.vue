@@ -16,8 +16,6 @@ export default {
 			hasWon: false,
 			hasLost: false,
 			soundOn: false,
-			musicOn: false,
-			backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
 		}
 	},
 	computed: {
@@ -27,9 +25,6 @@ export default {
 			}
 			return this.lives >= 1;
 		}
-	},
-	mounted() {
-		this.playBackgroundMusic()
 	},
 	created() {
 		// listener for moves with keyboard
@@ -111,6 +106,10 @@ export default {
 		columns: {
 			type: Number,
 			default: 6
+		},
+		musicOn: {
+			type: Boolean,
+			default: false
 		}
 	},
 	methods: {
@@ -134,6 +133,7 @@ export default {
 		},
 		newGame: function() {
 			if (this.hasWon === true || this.hasLost === true) {
+				// TODO reload game component only
 				window.location.reload()
 			}
 		},
@@ -212,7 +212,7 @@ export default {
 		},
 		winGame: function() {
 			if (this.soundOn) {
-				this.backgroundMusic.volume = 0;
+				this.$emit('mute-music')
 			}
 			this.playSound('win')
 			setTimeout(() => {
@@ -221,7 +221,7 @@ export default {
 		},
 		loseGame: function() {
 			if (this.soundOn) {
-				this.backgroundMusic.volume = 0;
+				this.$emit('mute-music')
 			}
 			this.playSound('gameover')
 			setTimeout(() => {
@@ -270,22 +270,8 @@ export default {
 
 			sounds[soundName].play()
 		},
-		playBackgroundMusic: function() {
-			this.backgroundMusic.loop = true;
-			this.backgroundMusic.volume = 0.3;
-			if (!this.musicOn) {
-				this.backgroundMusic.pause()
-			} else {
-				this.backgroundMusic.play()
-			}
-		},
 		onMusicClick: function() {
-			if (this.musicOn === false) {
-				this.musicOn = true
-			} else {
-				this.musicOn = false
-			}
-			this.playBackgroundMusic()
+			this.$emit('toggle-music')
 		}
 	}
 }
@@ -321,13 +307,13 @@ export default {
 				<div class="music">
 					<button
 							class="soundButton musicButtonOff"
-							v-if="musicOn === false"
+							v-if="!musicOn"
 							@click="onMusicClick">
 						Music <span><i class="fas fa-volume-mute"></i></span>
 					</button>
 					<button
 							class="soundButton musicButtonOn"
-							v-if="musicOn === true"
+							v-if="musicOn"
 							@click="onMusicClick">
 						Music <span><i class="fas fa-music"></i></span>
 					</button>
@@ -335,13 +321,13 @@ export default {
 				<div class="soundEffects">
 					<button
 							class="soundButton soundsButtonOff"
-							v-if="soundOn === false"
+							v-if="!soundOn"
 							@click="soundOn = true">
 						Sounds <span><i class="fas fa-volume-mute"></i></span>
 					</button>
 					<button
 							class="soundButton soundsButtonOn"
-							v-if="soundOn === true"
+							v-if="soundOn"
 							@click="soundOn = false">
 						Sounds <span><i class="fas fa-volume-up"></i></span>
 					</button>

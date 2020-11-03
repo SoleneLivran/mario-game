@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Game></Game>
+    <Game :music-on="musicOn" @toggle-music="toggleMusic" @mute-music="muteMusic"></Game>
   </div>
 </template>
 
@@ -11,6 +11,33 @@ export default {
   name: 'App',
   components: {
     Game
+  },
+  data() {
+    return {
+      backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
+      musicOn: false,
+    }
+  },
+  mounted() {
+    this.playBackgroundMusic()
+  },
+  methods: {
+    playBackgroundMusic: function() {
+      this.backgroundMusic.loop = true;
+      this.backgroundMusic.volume = 0.3;
+      if (!this.musicOn) {
+        this.backgroundMusic.pause()
+      } else {
+        this.backgroundMusic.play()
+      }
+    },
+    toggleMusic: function () {
+      this.musicOn = !this.musicOn
+      this.playBackgroundMusic()
+    },
+    muteMusic: function () {
+      this.backgroundMusic.volume = 0;
+    }
   }
 }
 </script>
