@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <Game
+            :rows="rows"
+            :columns="columns"
             :key="gameKey"
             :sound-on="soundOn"
             :music-on="musicOn"
@@ -24,12 +26,37 @@ export default {
   },
   data() {
     return {
+      boardSize: 2,
       gameKey: 0,
       backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
       soundOn: false,
       musicOn: false,
       musicVolume: 0.3,
     }
+  },
+  computed: {
+    rows: function () {
+      if (this.boardSize === 1) {
+        return 3
+      } else if (this.boardSize === 2) {
+        return 4
+      } else if (this.boardSize === 3) {
+        return 5
+      } else {
+        return 4
+      }
+    },
+    columns: function () {
+      if (this.boardSize === 1) {
+        return 4
+      } else if (this.boardSize === 2) {
+        return 6
+      } else if (this.boardSize === 3) {
+        return 8
+      } else {
+        return 6
+      }
+    },
   },
   mounted() {
     this.playBackgroundMusic()
