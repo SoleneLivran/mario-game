@@ -68,13 +68,17 @@ export default {
     },
     toggleMusic: function () {
       this.musicOn = !this.musicOn
-      this.playBackgroundMusic()
     },
     muteMusic: function () {
       this.backgroundMusic.volume = 0
     },
     unmuteMusic: function () {
       this.backgroundMusic.volume = this.musicVolume
+    }
+  },
+  watch: {
+    musicOn: function() {
+      this.playBackgroundMusic()
     }
   }
 }
