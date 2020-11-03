@@ -15,7 +15,6 @@ export default {
 			lives: 3,
 			hasWon: false,
 			hasLost: false,
-			soundOn: false,
 		}
 	},
 	computed: {
@@ -107,6 +106,10 @@ export default {
 			type: Number,
 			default: 6
 		},
+		soundOn: {
+			type: Boolean,
+			default: false
+		},
 		musicOn: {
 			type: Boolean,
 			default: false
@@ -192,20 +195,20 @@ export default {
 				this.winGame()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'coin') {
-				this.playSound('coin')
+				this.$emit('play-sound', 'coin')
 				this.getCoin()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'mushroom') {
-				this.playSound('mushroom')
+				this.$emit('play-sound', 'mushroom')
 				this.getMushroom()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'star') {
-				this.playSound('star')
+				this.$emit('play-sound', 'star')
 				this.getStar()
 			}
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'enemy') {
 				if (this.lives > 1) {
-					this.playSound('enemy')
+					this.$emit('play-sound', 'enemy')
 				}
 				this.fightEnemy()
 			}
@@ -214,7 +217,7 @@ export default {
 			if (this.soundOn) {
 				this.$emit('mute-music')
 			}
-			this.playSound('win')
+			this.$emit('play-sound', 'win')
 			setTimeout(() => {
 				this.hasWon = true
 			}, 750)
@@ -223,7 +226,7 @@ export default {
 			if (this.soundOn) {
 				this.$emit('mute-music')
 			}
-			this.playSound('gameover')
+			this.$emit('play-sound', 'gameover')
 			setTimeout(() => {
 				this.hasLost = true
 			}, 1500)
@@ -254,24 +257,11 @@ export default {
 				this.grid[this.playerCellRow][this.playerCellColumn] = null
 			})
 		},
-		playSound: function(soundName) {
-			if (!this.soundOn) {
-				return
-			}
-
-			let sounds = {
-				coin: 		new Audio('/sound/coin2.mp3'),
-				mushroom: 	new Audio('/sound/mushroom.mp3'),
-				enemy: 		new Audio('/sound/enemy.mp3'),
-				star:		new Audio('/sound/star.mp3'),
-				win:		new Audio('/sound/win.mp3'),
-				gameover:	new Audio('/sound/gameover.mp3'),
-			}
-
-			sounds[soundName].play()
-		},
 		onMusicClick: function() {
 			this.$emit('toggle-music')
+		},
+		onSoundClick: function() {
+			this.$emit('toggle-sound')
 		}
 	}
 }
@@ -322,13 +312,13 @@ export default {
 					<button
 							class="soundButton soundsButtonOff"
 							v-if="!soundOn"
-							@click="soundOn = true">
+							@click="onSoundClick">
 						Sounds <span><i class="fas fa-volume-mute"></i></span>
 					</button>
 					<button
 							class="soundButton soundsButtonOn"
 							v-if="soundOn"
-							@click="soundOn = false">
+							@click="onSoundClick">
 						Sounds <span><i class="fas fa-volume-up"></i></span>
 					</button>
 				</div>

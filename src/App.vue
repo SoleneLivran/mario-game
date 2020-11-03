@@ -2,8 +2,11 @@
   <div id="app">
     <Game
             :key="gameKey"
+            :sound-on="soundOn"
             :music-on="musicOn"
+            @play-sound="playSound"
             @reload-game="reloadGame"
+            @toggle-sound="toggleSound"
             @toggle-music="toggleMusic"
             @mute-music="muteMusic"
             @unmute-music="unmuteMusic">
@@ -23,6 +26,7 @@ export default {
     return {
       gameKey: 0,
       backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
+      soundOn: false,
       musicOn: false,
       musicVolume: 0.3,
     }
@@ -34,6 +38,22 @@ export default {
     reloadGame: function() {
       this.gameKey += 1
     },
+    playSound: function(soundName) {
+      if (!this.soundOn) {
+        return
+      }
+
+      let sounds = {
+        coin: 		new Audio('/sound/coin2.mp3'),
+        mushroom: 	new Audio('/sound/mushroom.mp3'),
+        enemy: 		new Audio('/sound/enemy.mp3'),
+        star:		new Audio('/sound/star.mp3'),
+        win:		new Audio('/sound/win.mp3'),
+        gameover:	new Audio('/sound/gameover.mp3'),
+      }
+
+      sounds[soundName].play()
+    },
     playBackgroundMusic: function() {
       this.backgroundMusic.loop = true
       this.backgroundMusic.volume = this.musicVolume
@@ -42,6 +62,9 @@ export default {
       } else {
         this.backgroundMusic.play()
       }
+    },
+    toggleSound: function () {
+      this.soundOn = !this.soundOn
     },
     toggleMusic: function () {
       this.musicOn = !this.musicOn
