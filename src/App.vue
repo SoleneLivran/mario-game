@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <Game :music-on="musicOn" @toggle-music="toggleMusic" @mute-music="muteMusic"></Game>
+    <Game
+            :key="gameKey"
+            :music-on="musicOn"
+            @reload-game="reloadGame"
+            @toggle-music="toggleMusic"
+            @mute-music="muteMusic"
+            @unmute-music="unmuteMusic">
+    </Game>
   </div>
 </template>
 
@@ -14,17 +21,22 @@ export default {
   },
   data() {
     return {
+      gameKey: 0,
       backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
       musicOn: false,
+      musicVolume: 0.3,
     }
   },
   mounted() {
     this.playBackgroundMusic()
   },
   methods: {
+    reloadGame: function() {
+      this.gameKey += 1
+    },
     playBackgroundMusic: function() {
-      this.backgroundMusic.loop = true;
-      this.backgroundMusic.volume = 0.3;
+      this.backgroundMusic.loop = true
+      this.backgroundMusic.volume = this.musicVolume
       if (!this.musicOn) {
         this.backgroundMusic.pause()
       } else {
@@ -36,7 +48,10 @@ export default {
       this.playBackgroundMusic()
     },
     muteMusic: function () {
-      this.backgroundMusic.volume = 0;
+      this.backgroundMusic.volume = 0
+    },
+    unmuteMusic: function () {
+      this.backgroundMusic.volume = this.musicVolume
     }
   }
 }

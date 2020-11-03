@@ -133,8 +133,8 @@ export default {
 		},
 		newGame: function() {
 			if (this.hasWon === true || this.hasLost === true) {
-				// TODO reload game component only
-				window.location.reload()
+				this.$emit('reload-game')
+				this.$emit('unmute-music')
 			}
 		},
 		onCellClick: function (row, column) {
