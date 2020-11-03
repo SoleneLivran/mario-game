@@ -73,7 +73,9 @@ export default {
       this.backgroundMusic.pause()
     },
     unpauseMusic: function () {
-      this.backgroundMusic.play()
+      if (this.musicOn) {
+        this.backgroundMusic.play()
+      }
     }
   },
   watch: {
