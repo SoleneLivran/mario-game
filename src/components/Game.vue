@@ -36,6 +36,13 @@ export default {
 			}
 		}, false)
 
+		// listener to prevent sound/music toggle by inadvertence when pressing enter
+		window.addEventListener("keydown", function(e) {
+			if (["Enter"].indexOf(e.key) !== -1) {
+				e.preventDefault();
+			}
+		}, false)
+
 		// listener to start new game with enter key
 		window.addEventListener("keyup", (e) => {
 			if (["Enter"].indexOf(e.key) !== -1) {
