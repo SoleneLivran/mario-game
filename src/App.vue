@@ -58,9 +58,9 @@ export default {
       this.backgroundMusic.loop = true
       this.backgroundMusic.volume = this.musicVolume
       if (!this.musicOn) {
-        this.backgroundMusic.pause()
+        this.pauseMusic()
       } else {
-        this.backgroundMusic.play()
+        this.unpauseMusic()
       }
     },
     toggleSound: function () {
