@@ -4,6 +4,8 @@
             :size-selected="sizeSelected"
             :rows="rows"
             :columns="columns"
+            :difficulty-selected="difficultySelected"
+            :enemies="enemies"
             :key="gameKey"
             :sound-on="soundOn"
             :music-on="musicOn"
@@ -31,6 +33,8 @@ export default {
     return {
       sizeSelected: false,
       boardSize: 2,
+      difficultySelected: false,
+      difficulty: 2,
       gameKey: 0,
       backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
       soundOn: false,
@@ -61,6 +65,42 @@ export default {
         return 6
       }
     },
+    // TODO : tableau ennemis par difficulté et par taille
+    enemies: function () {
+      if (this.boardSize === 1) {
+        if (this.difficulty === 1) {
+          return 1
+        } else if (this.difficulty === 2) {
+          return 2
+        } else if (this.difficulty === 3) {
+          return 3
+        } else {
+          return 2
+        }
+      } else if (this.boardSize === 2) {
+        if (this.difficulty === 1) {
+          return 3
+        } else if (this.difficulty === 2) {
+          return 4
+        } else if (this.difficulty === 3) {
+          return 6
+        } else {
+          return 4
+        }
+      } else if (this.boardSize === 3) {
+        if (this.difficulty === 1) {
+          return 6
+        } else if (this.difficulty === 2) {
+          return 8
+        } else if (this.difficulty === 3) {
+          return 12
+        } else {
+          return 8
+        }
+      } else {
+        return 2
+      }
+    }
   },
   mounted() {
     this.playBackgroundMusic()

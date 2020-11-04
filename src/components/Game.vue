@@ -11,7 +11,6 @@ export default {
 			mushrooms: 2,
 			stars: 1,
 			hasStar: false,
-			enemies: 4,
 			lives: 3,
 			hasWon: false,
 			hasLost: false,
@@ -116,6 +115,14 @@ export default {
 		columns: {
 			type: Number,
 			default: 6
+		},
+		difficultySelected: {
+			type: Boolean,
+			default: false
+		},
+		enemies: {
+			type: Number,
+			default: 4
 		},
 		soundOn: {
 			type: Boolean,
@@ -368,7 +375,8 @@ export default {
 							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
 							'starCell' : isCellOfType(row, column, 'star'),
 							'enemyCellActive' : isCellOfType(row, column, 'enemy') && isMarioOnCell(row, column),
-							'cellGameOver' : isMarioOnCell(row, column) && (lives === 0)
+							'cellGameOver' : isMarioOnCell(row, column) && (lives === 0),
+							'enemyCell' : isCellOfType(row, column, 'enemy'),
 						}"
 						@click="onCellClick(row, column)">
 					</div>
@@ -682,6 +690,10 @@ export default {
 
 	.soundButton span {
 		font-size: 1.5em;
+	}
+
+	.enemyCell {
+		background-color: red;
 	}
 
 </style>
