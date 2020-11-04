@@ -425,16 +425,18 @@ export default {
 				</div>
 			</div>
 
-			<div id="changeBoardSize" v-if="sizeSelected && difficultySelected">
-				<button class="button changeSizeButton" @click="changeBoardSize">
-					Change board size
-				</button>
-			</div>
+			<div id="settings">
+				<div id="changeBoardSize" v-if="sizeSelected && difficultySelected">
+					<button class="button settingButton changeSizeButton" @click="changeBoardSize">
+						Change board size
+					</button>
+				</div>
 
-			<div id="changeDifficulty" v-if="sizeSelected && difficultySelected">
-				<button class="button changeSizeButton" @click="changeDifficulty">
-					Change difficulty
-				</button>
+				<div id="changeDifficulty" v-if="sizeSelected && difficultySelected">
+					<button class="button settingButton changeSizeButton" @click="changeDifficulty">
+						Change difficulty
+					</button>
+				</div>
 			</div>
 		</div>
 
@@ -679,6 +681,11 @@ export default {
 		cursor: pointer;
 	}
 
+	#settings {
+		display: flex;
+		justify-content: center;
+	}
+
 	#boardSizeSelector,
 	#difficultySelector {
 		font-size: 1.5em;
@@ -690,7 +697,8 @@ export default {
 		margin: 1em 0 1em 0;
 	}
 
-	.boardSizeButton {
+	.boardSizeButton,
+	.settingButton {
 		margin: 0 1em;
 	}
 
