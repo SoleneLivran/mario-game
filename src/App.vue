@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Game
+            :size-selected="sizeSelected"
             :rows="rows"
             :columns="columns"
             :key="gameKey"
@@ -12,7 +13,8 @@
             @toggle-music="toggleMusic"
             @pause-music="pauseMusic"
             @unpause-music="unpauseMusic"
-            @choose-board-size="chooseBoardSize">
+            @change-board-size="changeBoardSize"
+            @select-board-size="selectBoardSize">
     </Game>
   </div>
 </template>
@@ -27,6 +29,7 @@ export default {
   },
   data() {
     return {
+      sizeSelected: false,
       boardSize: 2,
       gameKey: 0,
       backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
@@ -105,12 +108,13 @@ export default {
         this.backgroundMusic.play()
       }
     },
-    // chooseBoardSize: function(event) {
-    //   this.boardSize = parseInt(event.target.value)
-    //   this.reloadGame()
-    // },
-    chooseBoardSize: function(size) {
+    selectBoardSize: function(size) {
+      this.sizeSelected = true
       this.boardSize = size
+      this.reloadGame()
+    },
+    changeBoardSize: function() {
+      this.sizeSelected = false
     }
   },
   watch: {

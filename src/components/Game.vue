@@ -3,7 +3,6 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
-			sizeSelected: false,
 			grid: [],
 			playerCellRow: 1,
 			playerCellColumn: 1,
@@ -106,6 +105,10 @@ export default {
 		}, false)
 	},
 	props: {
+		sizeSelected: {
+			type: Boolean,
+			default: false
+		},
 		rows: {
 			type: Number,
 			default: 4
@@ -271,12 +274,11 @@ export default {
 		onSoundClick: function() {
 			this.$emit('toggle-sound')
 		},
-		selectSize: function(size) {
-			this.sizeSelected = true
-			this.$emit('choose-board-size', size)
+		changeBoardSize: function() {
+			this.$emit('change-board-size')
 		},
-		chooseSize: function() {
-			this.sizeSelected = false
+		selectBoardSize: function(size) {
+			this.$emit('select-board-size', size)
 		}
 	}
 }
@@ -285,6 +287,36 @@ export default {
 <template>
 
 	<div class="container">
+		<div id="soundParameters">
+			<div class="music">
+				<button
+						class="soundButton musicButtonOff"
+						v-if="!musicOn"
+						@click="onMusicClick">
+					Music <span><i class="fas fa-volume-mute"></i></span>
+				</button>
+				<button
+						class="soundButton musicButtonOn"
+						v-if="musicOn"
+						@click="onMusicClick">
+					Music <span><i class="fas fa-music"></i></span>
+				</button>
+			</div>
+			<div class="soundEffects">
+				<button
+						class="soundButton soundsButtonOff"
+						v-if="!soundOn"
+						@click="onSoundClick">
+					Sounds <span><i class="fas fa-volume-mute"></i></span>
+				</button>
+				<button
+						class="soundButton soundsButtonOn"
+						v-if="soundOn"
+						@click="onSoundClick">
+					Sounds <span><i class="fas fa-volume-up"></i></span>
+				</button>
+			</div>
+		</div>
 		<div id="game" v-if="!hasWon && !hasLost">
 			<div class="rules">
 				<h1>Let's-a-play!</h1>
@@ -307,81 +339,6 @@ export default {
 					If your lives get down to zero...game over!
 				</p>
 			</div>
-
-			<div id="soundParameters">
-				<div class="music">
-					<button
-							class="soundButton musicButtonOff"
-							v-if="!musicOn"
-							@click="onMusicClick">
-						Music <span><i class="fas fa-volume-mute"></i></span>
-					</button>
-					<button
-							class="soundButton musicButtonOn"
-							v-if="musicOn"
-							@click="onMusicClick">
-						Music <span><i class="fas fa-music"></i></span>
-					</button>
-				</div>
-				<div class="soundEffects" v-if="sizeSelected">
-					<button
-							class="soundButton soundsButtonOff"
-							v-if="!soundOn"
-							@click="onSoundClick">
-						Sounds <span><i class="fas fa-volume-mute"></i></span>
-					</button>
-					<button
-							class="soundButton soundsButtonOn"
-							v-if="soundOn"
-							@click="onSoundClick">
-						Sounds <span><i class="fas fa-volume-up"></i></span>
-					</button>
-				</div>
-			</div>
-
-<!--			<div id="gridSizeSelector">-->
-<!--				<label for="gridSize">Change board size:</label>-->
-<!--				<select name="gridSize" id="gridSize" @change="onBoardSizeChoose">-->
-<!--					<option value="1">Choose</option>-->
-<!--					<option value="1">Small</option>-->
-<!--					<option value="2">Medium</option>-->
-<!--					<option value="3">Large</option>-->
-<!--				</select>-->
-<!--			</div>-->
-
-			<div id="changeGridSize" v-if="sizeSelected">
-				<button class="newGameButton" @click="chooseSize">
-					Change board size
-				</button>
-			</div>
-
-			<div id="gridSizeSelector" v-if="!sizeSelected">
-				Choose a board size
-				<button class="newGameButton" @click="selectSize(1)">
-					Small
-				</button>
-				<button class="newGameButton" @click="selectSize(2)">
-					Medium
-				</button>
-				<button class="newGameButton" @click="selectSize(3)">
-					Large
-				</button>
-			</div>
-
-<!--			<div id="gridSizeSelector" v-if="!sizeSelected">-->
-<!--				<input type="radio" id="small" name="size" value="small">-->
-<!--				<label for="small">Small</label><br>-->
-<!--				<input type="radio" id="medium" name="size" value="medium">-->
-<!--				<label for="medium">Medium</label><br>-->
-<!--				<input type="radio" id="large" name="size" value="large">-->
-<!--				<label for="large">Large</label>-->
-<!--			</div>-->
-
-<!--			<div id="launchGame" v-if="!sizeSelected">-->
-<!--				<button class="newGameButton" @click="showGame">-->
-<!--					New Game-->
-<!--				</button>-->
-<!--			</div>-->
 
 			<div class="stats" v-if="sizeSelected">
 				<p>
@@ -417,6 +374,27 @@ export default {
 					</div>
 				</div>
 			</div>
+
+			<div id="boardSizeSelector" v-if="!sizeSelected">
+				Choose a board size!
+				<div class="boardSizeButtons">
+					<button class="button boardSizeButton" @click="selectBoardSize(1)">
+						Small
+					</button>
+					<button class="button boardSizeButton" @click="selectBoardSize(2)">
+						Medium
+					</button>
+					<button class="button boardSizeButton" @click="selectBoardSize(3)">
+						Large
+					</button>
+				</div>
+			</div>
+
+			<div id="changeBoardSize" v-if="sizeSelected">
+				<button class="button changeSizeButton" @click="changeBoardSize">
+					Change board size
+				</button>
+			</div>
 		</div>
 
 		<div class="victory" v-if="hasWon">
@@ -425,7 +403,7 @@ export default {
 			<p>
 				Coins collected: {{playerCoins}} / {{gameCoins}}
 			</p>
-			<button class="newGameButton" @click="newGame">
+			<button class="button newGameButton" @click="newGame">
 				New Game
 			</button>
 		</div>
@@ -436,7 +414,7 @@ export default {
 			<p>
 				Game Over :(
 			</p>
-			<button class="newGameButton" @click="newGame">
+			<button class="button newGameButton" @click="newGame">
 				New Game
 			</button>
 		</div>
@@ -481,8 +459,7 @@ export default {
 		font-family: 'Orbitron', sans-serif;
 		display: flex;
 		justify-content: center;
-		padding-top: 50px;
-		margin-top: 2em;
+		margin-top: 5em;
 		height: 50px;
 		font-size: 0.8em;
 		font-weight: 500;
@@ -518,7 +495,7 @@ export default {
 	.stats {
 		display: flex;
 		justify-content: center;
-		margin-top: 2em;
+		margin-top: 1em;
 	}
 
 	.stats p {
@@ -551,7 +528,7 @@ export default {
 	}
 
 	#board {
-		margin-top: 1rem;
+		margin-bottom: 1em;
 		display: inline-block;
 		background-color: #FEC0B3;
 		border: 1px solid #FEC0B3;
@@ -649,7 +626,7 @@ export default {
 		font-family: 'Press Start 2P', cursive;
 	}
 
-	.newGameButton {
+	.button {
 		border: none;
 		border-radius: 10px;
 		background-color: white;
@@ -657,11 +634,32 @@ export default {
 		font-family: 'Press Start 2P', cursive;
 		color: red;
 		box-shadow: 4px 5px 0 rgba(0, 0, 0, 1);
+		outline: none;
+	}
+
+	#boardSizeSelector {
+		font-size: 1.5em;
+		margin-top: 1em;
+		/*text-shadow: 1px 3px 0 rgba(0, 0, 0, 1);*/
+	}
+
+	.boardSizeButtons {
+		margin: 1em 0 1em 0;
+	}
+
+	.boardSizeButton {
+		margin: 0 1em;
+	}
+
+	.changeSizeButton {
+		margin-top: 3em;
+		font-size: 0.8em;
 	}
 
 	#soundParameters {
 		display: flex;
 		justify-content: center;
+		margin-bottom: 1.5em;
 	}
 
 	#soundParameters div {
@@ -683,22 +681,5 @@ export default {
 	.soundButton span {
 		font-size: 1.5em;
 	}
-
-	#gridSizeSelector {
-		margin-top: 2em;
-	}
-
-	select {
-		border: none;
-		background-color: transparent;
-		color: white;
-		outline: none;
-		font-size: 100%;
-		font-family: inherit;
-		font-weight: inherit;
-		margin: 0 0.5em;
-	}
-
-
 
 </style>
