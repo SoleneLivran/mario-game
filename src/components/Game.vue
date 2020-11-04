@@ -677,6 +677,7 @@ export default {
 		font-weight: inherit;
 		padding: 0;
 		margin: 0;
+		cursor: pointer;
 	}
 
 	.soundButton span {
