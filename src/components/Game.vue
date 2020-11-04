@@ -3,6 +3,7 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
+			// sizeSelected: false,
 			grid: [],
 			playerCellRow: 1,
 			playerCellColumn: 1,
@@ -269,7 +270,13 @@ export default {
 		},
 		onSoundClick: function() {
 			this.$emit('toggle-sound')
-		}
+		},
+		onBoardSizeChoose: function(size) {
+			this.$emit('choose-board-size', size)
+		},
+		// showGame: function() {
+		// 	this.sizeSelected = true
+		// }
 	}
 }
 </script>
@@ -330,6 +337,31 @@ export default {
 					</button>
 				</div>
 			</div>
+
+			<div id="gridSizeSelector">
+				<label for="gridSize">Change board size:</label>
+				<select name="gridSize" id="gridSize" @change="onBoardSizeChoose">
+					<option value="1">Choose</option>
+					<option value="1">Small</option>
+					<option value="2">Medium</option>
+					<option value="3">Large</option>
+				</select>
+			</div>
+
+<!--			<div id="gridSizeSelector" v-if="!sizeSelected">-->
+<!--				<input type="radio" id="small" name="size" value="small">-->
+<!--				<label for="small">Small</label><br>-->
+<!--				<input type="radio" id="medium" name="size" value="medium">-->
+<!--				<label for="medium">Medium</label><br>-->
+<!--				<input type="radio" id="large" name="size" value="large">-->
+<!--				<label for="large">Large</label>-->
+<!--			</div>-->
+
+<!--			<div id="launchGame" v-if="!sizeSelected">-->
+<!--				<button class="newGameButton" @click="showGame">-->
+<!--					New Game-->
+<!--				</button>-->
+<!--			</div>-->
 
 			<div class="stats">
 				<p>
@@ -631,5 +663,22 @@ export default {
 	.soundButton span {
 		font-size: 1.5em;
 	}
+
+	#gridSizeSelector {
+		margin-top: 2em;
+	}
+
+	select {
+		border: none;
+		background-color: transparent;
+		color: white;
+		outline: none;
+		font-size: 100%;
+		font-family: inherit;
+		font-weight: inherit;
+		margin: 0 0.5em;
+	}
+
+
 
 </style>

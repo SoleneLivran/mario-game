@@ -11,7 +11,8 @@
             @toggle-sound="toggleSound"
             @toggle-music="toggleMusic"
             @pause-music="pauseMusic"
-            @unpause-music="unpauseMusic">
+            @unpause-music="unpauseMusic"
+            @choose-board-size="chooseBoardSize">
     </Game>
   </div>
 </template>
@@ -103,6 +104,10 @@ export default {
       if (this.musicOn) {
         this.backgroundMusic.play()
       }
+    },
+    chooseBoardSize: function(event) {
+      this.boardSize = parseInt(event.target.value)
+      this.reloadGame()
     }
   },
   watch: {
