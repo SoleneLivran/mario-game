@@ -8,8 +8,6 @@ export default {
 			playerCellColumn: 1,
 			gameCoins: 3,
 			playerCoins: 0,
-			mushrooms: 2,
-			stars: 1,
 			hasStar: false,
 			lives: 3,
 			hasWon: false,
@@ -123,6 +121,14 @@ export default {
 		enemies: {
 			type: Number,
 			default: 4
+		},
+		mushrooms: {
+			type: Number,
+			default: 2
+		},
+		stars: {
+			type: Number,
+			default: 1
 		},
 		soundOn: {
 			type: Boolean,
@@ -286,6 +292,12 @@ export default {
 		},
 		selectBoardSize: function(size) {
 			this.$emit('select-board-size', size)
+		},
+		changeDifficulty: function() {
+			this.$emit('change-difficulty')
+		},
+		selectDifficulty: function(difficulty) {
+			this.$emit('select-difficulty', difficulty)
 		}
 	}
 }
@@ -347,7 +359,7 @@ export default {
 				</p>
 			</div>
 
-			<div class="stats" v-if="sizeSelected">
+			<div class="stats" v-if="sizeSelected && difficultySelected">
 				<p>
 					Lives: 
 					<transition-group name="bounce">
@@ -360,7 +372,7 @@ export default {
 				<p>Hidden enemies: {{enemies}}</p>
 			</div>
 
-			<div id="board" v-if="sizeSelected">
+			<div id="board" v-if="sizeSelected && difficultySelected">
 				<div v-for="row in rows" :key="row" class="cellRow">
 					<div
 						v-for="column in columns"
@@ -398,9 +410,30 @@ export default {
 				</div>
 			</div>
 
-			<div id="changeBoardSize" v-if="sizeSelected">
+			<div id="difficultySelector" v-if="!difficultySelected && sizeSelected">
+				Choose a difficulty!
+				<div class="boardSizeButtons">
+					<button class="button boardSizeButton" @click="selectDifficulty(1)">
+						Easy
+					</button>
+					<button class="button boardSizeButton" @click="selectDifficulty(2)">
+						Medium
+					</button>
+					<button class="button boardSizeButton" @click="selectDifficulty(3)">
+						Hard
+					</button>
+				</div>
+			</div>
+
+			<div id="changeBoardSize" v-if="sizeSelected && difficultySelected">
 				<button class="button changeSizeButton" @click="changeBoardSize">
 					Change board size
+				</button>
+			</div>
+
+			<div id="changeDifficulty" v-if="sizeSelected && difficultySelected">
+				<button class="button changeSizeButton" @click="changeDifficulty">
+					Change difficulty
 				</button>
 			</div>
 		</div>
@@ -646,7 +679,8 @@ export default {
 		cursor: pointer;
 	}
 
-	#boardSizeSelector {
+	#boardSizeSelector,
+	#difficultySelector {
 		font-size: 1.5em;
 		margin-top: 1em;
 		/*text-shadow: 1px 3px 0 rgba(0, 0, 0, 1);*/

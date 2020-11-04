@@ -6,6 +6,8 @@
             :columns="columns"
             :difficulty-selected="difficultySelected"
             :enemies="enemies"
+            :mushrooms="mushrooms"
+            :stars="stars"
             :key="gameKey"
             :sound-on="soundOn"
             :music-on="musicOn"
@@ -16,7 +18,9 @@
             @pause-music="pauseMusic"
             @unpause-music="unpauseMusic"
             @change-board-size="changeBoardSize"
-            @select-board-size="selectBoardSize">
+            @select-board-size="selectBoardSize"
+            @change-difficulty="changeDifficulty"
+            @select-difficulty="selectDifficulty">
     </Game>
   </div>
 </template>
@@ -91,16 +95,24 @@ export default {
         if (this.difficulty === 1) {
           return 6
         } else if (this.difficulty === 2) {
-          return 8
-        } else if (this.difficulty === 3) {
           return 12
+        } else if (this.difficulty === 3) {
+          return 18
         } else {
-          return 8
+          return 10
         }
       } else {
         return 2
       }
-    }
+    },
+    mushrooms: function () {
+      // TODO : depending on level and size
+      return 2
+    },
+    stars: function () {
+      // TODO : depending on level and size
+      return 1
+    },
   },
   mounted() {
     this.playBackgroundMusic()
@@ -155,6 +167,14 @@ export default {
     },
     changeBoardSize: function() {
       this.sizeSelected = false
+    },
+    selectDifficulty: function(difficulty) {
+      this.difficultySelected = true
+      this.difficulty = difficulty
+      this.reloadGame()
+    },
+    changeDifficulty: function() {
+      this.difficultySelected = false
     }
   },
   watch: {
