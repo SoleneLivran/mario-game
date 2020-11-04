@@ -105,9 +105,12 @@ export default {
         this.backgroundMusic.play()
       }
     },
-    chooseBoardSize: function(event) {
-      this.boardSize = parseInt(event.target.value)
-      this.reloadGame()
+    // chooseBoardSize: function(event) {
+    //   this.boardSize = parseInt(event.target.value)
+    //   this.reloadGame()
+    // },
+    chooseBoardSize: function(size) {
+      this.boardSize = size
     }
   },
   watch: {

@@ -3,7 +3,7 @@ export default {
 	name: 'Game', 
 	data() {
 		return {
-			// sizeSelected: false,
+			sizeSelected: false,
 			grid: [],
 			playerCellRow: 1,
 			playerCellColumn: 1,
@@ -271,12 +271,13 @@ export default {
 		onSoundClick: function() {
 			this.$emit('toggle-sound')
 		},
-		onBoardSizeChoose: function(size) {
+		selectSize: function(size) {
+			this.sizeSelected = true
 			this.$emit('choose-board-size', size)
 		},
-		// showGame: function() {
-		// 	this.sizeSelected = true
-		// }
+		chooseSize: function() {
+			this.sizeSelected = false
+		}
 	}
 }
 </script>
@@ -322,7 +323,7 @@ export default {
 						Music <span><i class="fas fa-music"></i></span>
 					</button>
 				</div>
-				<div class="soundEffects">
+				<div class="soundEffects" v-if="sizeSelected">
 					<button
 							class="soundButton soundsButtonOff"
 							v-if="!soundOn"
@@ -338,14 +339,33 @@ export default {
 				</div>
 			</div>
 
-			<div id="gridSizeSelector">
-				<label for="gridSize">Change board size:</label>
-				<select name="gridSize" id="gridSize" @change="onBoardSizeChoose">
-					<option value="1">Choose</option>
-					<option value="1">Small</option>
-					<option value="2">Medium</option>
-					<option value="3">Large</option>
-				</select>
+<!--			<div id="gridSizeSelector">-->
+<!--				<label for="gridSize">Change board size:</label>-->
+<!--				<select name="gridSize" id="gridSize" @change="onBoardSizeChoose">-->
+<!--					<option value="1">Choose</option>-->
+<!--					<option value="1">Small</option>-->
+<!--					<option value="2">Medium</option>-->
+<!--					<option value="3">Large</option>-->
+<!--				</select>-->
+<!--			</div>-->
+
+			<div id="changeGridSize" v-if="sizeSelected">
+				<button class="newGameButton" @click="chooseSize">
+					Change board size
+				</button>
+			</div>
+
+			<div id="gridSizeSelector" v-if="!sizeSelected">
+				Choose a board size
+				<button class="newGameButton" @click="selectSize(1)">
+					Small
+				</button>
+				<button class="newGameButton" @click="selectSize(2)">
+					Medium
+				</button>
+				<button class="newGameButton" @click="selectSize(3)">
+					Large
+				</button>
 			</div>
 
 <!--			<div id="gridSizeSelector" v-if="!sizeSelected">-->
@@ -363,7 +383,7 @@ export default {
 <!--				</button>-->
 <!--			</div>-->
 
-			<div class="stats">
+			<div class="stats" v-if="sizeSelected">
 				<p>
 					Lives: 
 					<transition-group name="bounce">
@@ -376,7 +396,7 @@ export default {
 				<p>Hidden enemies: {{enemies}}</p>
 			</div>
 
-			<div id="board">
+			<div id="board" v-if="sizeSelected">
 				<div v-for="row in rows" :key="row" class="cellRow">
 					<div
 						v-for="column in columns"
