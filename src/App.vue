@@ -2,12 +2,12 @@
   <div id="app">
     <Game
             :size-selected="sizeSelected"
-            :rows="rows"
-            :columns="columns"
+            :rows="configuration.rows"
+            :columns="configuration.columns"
             :difficulty-selected="difficultySelected"
-            :enemies="enemies"
-            :mushrooms="mushrooms"
-            :stars="stars"
+            :enemies="configuration.enemies"
+            :mushrooms="configuration.mushrooms"
+            :stars="configuration.stars"
             :key="gameKey"
             :sound-on="soundOn"
             :music-on="musicOn"
@@ -28,6 +28,87 @@
 <script>
 import Game from './components/Game.vue'
 
+const DIFFICULTY_EASY = 1
+const DIFFICULTY_MEDIUM = 2
+const DIFFICULTY_HARD = 3
+
+const BOARDSIZE_SMALL = 1
+const BOARDSIZE_MEDIUM = 2
+const BOARDSIZE_LARGE = 3
+
+const CONFIGS = {
+  [BOARDSIZE_SMALL]: {
+    [DIFFICULTY_EASY]: {
+      rows: 3,
+      columns: 4,
+      enemies: 1,
+      mushrooms: 2,
+      stars: 1
+    },
+    [DIFFICULTY_MEDIUM]: {
+      rows: 3,
+      columns: 4,
+      enemies: 2,
+      mushrooms: 1,
+      stars: 1,
+
+    },
+    [DIFFICULTY_HARD]: {
+      rows: 3,
+      columns: 4,
+      enemies: 3,
+      mushrooms: 1,
+      stars: 0
+    }
+  },
+  [BOARDSIZE_MEDIUM]: {
+    [DIFFICULTY_EASY]: {
+      rows: 4,
+      columns: 6,
+      enemies: 3,
+      mushrooms: 2,
+      stars: 1
+    },
+    [DIFFICULTY_MEDIUM]: {
+      rows: 4,
+      columns: 6,
+      enemies: 6,
+      mushrooms: 1,
+      stars: 1,
+    },
+    [DIFFICULTY_HARD]: {
+      rows: 4,
+      columns: 6,
+      enemies: 8,
+      mushrooms: 1,
+      stars: 0
+    }
+  },
+  [BOARDSIZE_LARGE]: {
+    [DIFFICULTY_EASY]: {
+      rows: 5,
+      columns: 8,
+      enemies: 6,
+      mushrooms: 2,
+      stars: 1
+    },
+    [DIFFICULTY_MEDIUM]: {
+      rows: 5,
+      columns: 8,
+      enemies: 12,
+      mushrooms: 1,
+      stars: 1,
+    },
+    [DIFFICULTY_HARD]: {
+      rows: 5,
+      columns: 8,
+      enemies: 16,
+      mushrooms: 1,
+      stars: 0
+    }
+  }
+}
+
 export default {
   name: 'App',
   components: {
@@ -47,72 +128,9 @@ export default {
     }
   },
   computed: {
-    rows: function () {
-      if (this.boardSize === 1) {
-        return 3
-      } else if (this.boardSize === 2) {
-        return 4
-      } else if (this.boardSize === 3) {
-        return 5
-      } else {
-        return 4
-      }
-    },
-    columns: function () {
-      if (this.boardSize === 1) {
-        return 4
-      } else if (this.boardSize === 2) {
-        return 6
-      } else if (this.boardSize === 3) {
-        return 8
-      } else {
-        return 6
-      }
-    },
-    // TODO : tableau ennemis par difficulté et par taille
-    enemies: function () {
-      if (this.boardSize === 1) {
-        if (this.difficulty === 1) {
-          return 1
-        } else if (this.difficulty === 2) {
-          return 2
-        } else if (this.difficulty === 3) {
-          return 3
-        } else {
-          return 2
-        }
-      } else if (this.boardSize === 2) {
-        if (this.difficulty === 1) {
-          return 3
-        } else if (this.difficulty === 2) {
-          return 4
-        } else if (this.difficulty === 3) {
-          return 6
-        } else {
-          return 4
-        }
-      } else if (this.boardSize === 3) {
-        if (this.difficulty === 1) {
-          return 6
-        } else if (this.difficulty === 2) {
-          return 12
-        } else if (this.difficulty === 3) {
-          return 18
-        } else {
-          return 10
-        }
-      } else {
-        return 2
-      }
-    },
-    mushrooms: function () {
-      // TODO : depending on level and size
-      return 2
-    },
-    stars: function () {
-      // TODO : depending on level and size
-      return 1
-    },
+    configuration: function () {
+      return CONFIGS[this.boardSize][this.difficulty]
+    }
   },
   mounted() {
     this.playBackgroundMusic()
