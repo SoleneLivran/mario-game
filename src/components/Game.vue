@@ -346,19 +346,19 @@ export default {
 			<div class="rules">
 				<h1>Let's-a-play!</h1>
 				<p>
-					<img src="../../public/img/mario-jump.png" alt="mario" width="30px" style="vertical-align:bottom;"> Move with your keyboard's arrow keys
+					<img class="rulesImage marioImage" src="../../public/img/mario-jump.png" alt="mario" width="30px" style="vertical-align:bottom;"> Move with your keyboard's arrow keys
 				</p>
 				<p>
-					<span class="coinCell"></span> Collect as many coins as possible and reach the flag!
+					<img class="rulesImage coinImage" src="../../public/img/coin.gif" alt="coin" width="15px"> Collect as many coins as possible and reach the flag!
 				</p>
 				<p>
-					<span class="mushroomCell"></span> If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i>
+					<img class="rulesImage mushroomImage" src="../../public/img/mushroom.gif" alt="mushroom" width="25px" style="margin-right: 0.5em;">If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i>
 				</p>
 				<p>
 					<i class="fas fa-skull" style="font-size:1.5em;"></i> Enemies are hiding. If one finds you, you lose a life
 				</p>
 				<p>
-					<span class="starCell"></span> If you find a star, you are protected from the next enemy
+					<img class="rulesImage starImage" src="../../public/img/star.gif" alt="star" width="25px"> If you find a star, you are protected from the next enemy
 					</p>
 				<p id="game-over-rule">
 					If your lives get down to zero...game over!
@@ -419,13 +419,13 @@ export default {
 			<div id="difficultySelector" v-if="!difficultySelected && sizeSelected">
 				Choose a difficulty!
 				<div class="boardSizeButtons">
-					<button class="button boardSizeButton" @click="selectDifficulty(1)">
+					<button class="button difficultyButton" @click="selectDifficulty(1)">
 						Easy
 					</button>
-					<button class="button boardSizeButton" @click="selectDifficulty(2)">
+					<button class="button difficultyButton" @click="selectDifficulty(2)">
 						Medium
 					</button>
-					<button class="button boardSizeButton" @click="selectDifficulty(3)">
+					<button class="button difficultyButton" @click="selectDifficulty(3)">
 						Hard
 					</button>
 				</div>
@@ -537,6 +537,7 @@ export default {
 	}
 
 	.rules h1 {
+		font-size: 2em;
 		text-shadow: 3px 6px 0 rgba(0, 0, 0, 1);
 	}
 
@@ -753,6 +754,31 @@ export default {
 
 	.soundButton span {
 		font-size: 1.5em;
+	}
+
+	@media screen and (max-width: 425px) {
+		.rules {
+			font-size: 0.8em;
+		}
+
+		.rules h1 {
+			font-size: 1.5em;
+			text-shadow: 1.8px 3px 0 rgba(0, 0, 0, 1);
+		}
+
+		.boardSizeButton,
+		.difficultyButton,
+		.changeSizeButton,
+		.changeDifficultyButton {
+			box-sizing: border-box;
+			display: block;
+			width: 100%;
+			margin: 0.8em 0;
+		}
+
+		#settings {
+			display: block;
+		}
 	}
 
 </style>
