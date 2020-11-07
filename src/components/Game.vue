@@ -483,9 +483,9 @@ export default {
 
 <style>
 	body {
-	padding: 1rem;
-	background-color:#6096FF;
-	position: relative;
+		padding: 1rem;
+		background-color:#6096FF;
+		position: relative;
 	}
 
 	body, html {
@@ -691,6 +691,15 @@ export default {
 		cursor: pointer;
 	}
 
+	.button:active {
+		box-shadow: none;
+		transform: translate(4px, 5px);
+	}
+
+	.button:hover {
+		background-color: #eee;
+	}
+
 	#settings {
 		display: flex;
 		justify-content: center;
@@ -700,7 +709,6 @@ export default {
 	#difficultySelector {
 		font-size: 1.5em;
 		margin-top: 1em;
-		/*text-shadow: 1px 3px 0 rgba(0, 0, 0, 1);*/
 	}
 
 	.boardSizeButtons {
@@ -709,7 +717,7 @@ export default {
 
 	.boardSizeButton,
 	.settingButton {
-		margin: 0 1em;
+		margin: 0.5em 1em;
 	}
 
 	.changeSizeButton,
