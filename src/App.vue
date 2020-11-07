@@ -2,9 +2,11 @@
   <div id="app">
     <Game
             :size-selected="sizeSelected"
+            :boardsize-name="boardsizeName"
             :rows="configuration.rows"
             :columns="configuration.columns"
             :difficulty-selected="difficultySelected"
+            :difficulty-name="difficultyName"
             :enemies="configuration.enemies"
             :mushrooms="configuration.mushrooms"
             :stars="configuration.stars"
@@ -109,6 +111,18 @@ const CONFIGS = {
   }
 }
 
+const BOARDSIZE_NAME = {
+  [BOARDSIZE_SMALL]: "small",
+  [BOARDSIZE_MEDIUM]: "medium",
+  [DIFFICULTY_HARD]: "big"
+}
+
+const DIFFICULTY_NAME = {
+  [DIFFICULTY_EASY]: "easy",
+  [DIFFICULTY_MEDIUM]: "medium",
+  [DIFFICULTY_HARD]: "hard"
+}
+
 export default {
   name: 'App',
   components: {
@@ -130,6 +144,12 @@ export default {
   computed: {
     configuration: function () {
       return CONFIGS[this.boardSize][this.difficulty]
+    },
+    boardsizeName: function () {
+      return BOARDSIZE_NAME[this.boardSize]
+    },
+    difficultyName: function () {
+      return DIFFICULTY_NAME[this.difficulty]
     }
   },
   mounted() {

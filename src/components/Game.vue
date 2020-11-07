@@ -106,6 +106,9 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		boardsizeName: {
+			type: String,
+		},
 		rows: {
 			type: Number,
 			default: 4
@@ -117,6 +120,9 @@ export default {
 		difficultySelected: {
 			type: Boolean,
 			default: false
+		},
+		difficultyName: {
+			type: String,
 		},
 		enemies: {
 			type: Number,
@@ -428,13 +434,17 @@ export default {
 			<div id="settings">
 				<div id="changeBoardSize" v-if="sizeSelected && difficultySelected">
 					<button class="button settingButton changeSizeButton" @click="changeBoardSize">
-						Change board size
+						Change size
+						<br>
+						({{ this.boardsizeName }})
 					</button>
 				</div>
 
 				<div id="changeDifficulty" v-if="sizeSelected && difficultySelected">
-					<button class="button settingButton changeSizeButton" @click="changeDifficulty">
+					<button class="button settingButton changeDifficultyButton" @click="changeDifficulty">
 						Change difficulty
+						<br>
+						({{ this.difficultyName }})
 					</button>
 				</div>
 			</div>
@@ -702,9 +712,12 @@ export default {
 		margin: 0 1em;
 	}
 
-	.changeSizeButton {
+	.changeSizeButton,
+	.changeDifficultyButton {
 		margin-top: 3em;
-		font-size: 0.8em;
+		font-size: 0.7em;
+		line-height: 1.5em;
+		padding: 0.5em;
 	}
 
 	#soundParameters {
