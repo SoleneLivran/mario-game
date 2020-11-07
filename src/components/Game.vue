@@ -747,8 +747,4 @@ export default {
 		font-size: 1.5em;
 	}
 
-	.enemyCell {
-		background-color: red;
-	}
-
 </style>

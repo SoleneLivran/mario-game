@@ -52,14 +52,14 @@ const CONFIGS = {
       columns: 4,
       enemies: 2,
       mushrooms: 1,
-      stars: 1,
+      stars: 0,
 
     },
     [DIFFICULTY_HARD]: {
       rows: 3,
       columns: 4,
       enemies: 3,
-      mushrooms: 1,
+      mushrooms: 0,
       stars: 0
     }
   },
