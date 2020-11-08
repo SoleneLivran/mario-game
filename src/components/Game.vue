@@ -717,6 +717,7 @@ export default {
 	}
 
 	.boardSizeButton,
+	.difficultyButton,
 	.settingButton {
 		margin: 0.5em 1em;
 	}
