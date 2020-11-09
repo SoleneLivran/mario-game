@@ -490,8 +490,8 @@ export default {
 		<div class="victory" v-if="hasWon">
 			<img alt="Victory!" src="../../public/img/mushroom.png" width="150px">
 			<h1>Victory!</h1>
-			<p>
-				Coins collected: {{playerCoins}} / {{gameCoins}}
+			<p class="victory-stats">
+				Coins collected: <span class="coins-collected">{{playerCoins}} / {{gameCoins}}</span>
 			</p>
 			<button class="button newGameButton" @click="newGame">
 				New Game
@@ -827,6 +827,18 @@ export default {
 			display: block;
 		}
 
+		.victory h1,
+		.game-over h1 {
+			font-size: 1em;
+		}
+
+		.victory p,
+		.game-over p {
+			font-size: 0.8em;
+		}
+	}
+
+	@media screen and (max-width: 375px) {
 		.footer-element {
 			display: flex;
 			flex-direction: column;
@@ -835,6 +847,22 @@ export default {
 
 		.footer-element-symbol {
 			margin-bottom: 0.5em;
+		}
+
+		.victory-stats {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.victory h1,
+		.game-over h1 {
+			font-size: 0.8em;
+		}
+
+		.victory p,
+		.game-over p {
+			font-size: 0.5em;
 		}
 	}
 
