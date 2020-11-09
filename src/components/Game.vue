@@ -15,6 +15,8 @@ export default {
 		}
 	},
 	computed: {
+		// checks if the player is allowed to move (can't if is on end cell or if has no more lives)
+		// "you can't move if you're dead ¯\_(ツ)_/¯ "
 		canMove: function () {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				return false
@@ -36,24 +38,28 @@ export default {
 		// listener to prevent sound/music toggle by inadvertence when pressing enter
 		window.addEventListener("keydown", function(e) {
 			if (["Enter"].indexOf(e.key) !== -1) {
-				e.preventDefault();
+				e.preventDefault()
 			}
 		}, false)
 
 		// listener to start new game with enter key
 		window.addEventListener("keyup", (e) => {
 			if (["Enter"].indexOf(e.key) !== -1) {
-				this.newGame();
+				this.newGame()
 			}
 		}, false)
 
-		// board creation, "undefined" cells
+		// board creation, with "undefined" cells
+		// create the defined number of rows cells
 		for (let row = 0; row < this.rows; row++) {
+			// for each row, create the defined number of columns cells
 			this.grid.push(new Array(this.columns))
 		}
 
-		// define start coordinates
-		let startCoord = this.generateEmptyCoordinates();
+		// define start coordinates :
+		// find a cell which is still "undefined" (has no item)
+		let startCoord = this.generateEmptyCoordinates()
+		// this cell is now "start" instead of "undefined"
 		this.grid[startCoord.row][startCoord.column] = 'start'
 
 		// define player start cell = game start cell
@@ -61,12 +67,15 @@ export default {
 		this.playerCellColumn = startCoord.column
 
 		// define end coordinates
-		let endCoord = this.generateEmptyCoordinates();
+		let endCoord = this.generateEmptyCoordinates()
 		this.grid[endCoord.row][endCoord.column] = 'end'
 
 		// define coins coordinates
+		// for each coin...
 		for (let coin = 0; coin < this.gameCoins; coin++) {
+			// find a cell which is still "undefined" (has no item)
 			let coinCoord = this.generateEmptyCoordinates()
+			// this cell is now "coin" instead of "undefined"
 			this.grid[coinCoord.row][coinCoord.column] = 'coin'
 		}
 
@@ -102,10 +111,12 @@ export default {
 		}, false)
 	},
 	props: {
+		// has a board size been selected?
 		sizeSelected: {
 			type: Boolean,
 			default: false
 		},
+		// name of the selected board size as a string
 		boardsizeName: {
 			type: String,
 		},
@@ -117,10 +128,12 @@ export default {
 			type: Number,
 			default: 6
 		},
+		// has a game difficulty been selected?
 		difficultySelected: {
 			type: Boolean,
 			default: false
 		},
+		// name of the selected difficulty as a string
 		difficultyName: {
 			type: String,
 		},
@@ -136,40 +149,50 @@ export default {
 			type: Number,
 			default: 1
 		},
+		// are game sounds allowed to play?
 		soundOn: {
 			type: Boolean,
 			default: false
 		},
+		// is music allowed to play?
 		musicOn: {
 			type: Boolean,
 			default: false
 		}
 	},
 	methods: {
+		// find an empty cell coordinates (by row and column)
 		generateEmptyCoordinates: function() {
 			let row, column
 
 			do {
+				// find a random row inside the game board
 				row = Math.ceil(Math.random() * this.rows - 1)
+				// find a random column inside the game board
 				column = Math.ceil(Math.random()*this.columns - 1)
+			// keep looking if the coordinates generated already has an item on it
 			} while (typeof this.grid[row][column] !== 'undefined')
 
 			return {row, column}
 		},
+		// return the type of the cell
 		isCellOfType: function(row, column, type) {
 			// TODO start #board loop at 0 so we don't need the -1s
 			return this.grid[row-1] && this.grid[row-1][column-1] === type
 		},
+		// check if player is on cell
 		isMarioOnCell: function(row, column) {
 			// TODO start #board loop at 0 so we don't need the -1s
 			return row-1 === this.playerCellRow && column-1 === this.playerCellColumn
 		},
+		// launches a new game, if previous game is over
 		newGame: function() {
 			if (this.hasWon === true || this.hasLost === true) {
 				this.$emit('reload-game')
 				this.$emit('unpause-music')
 			}
 		},
+		// move the player when next cell is clicked (only if moving is allowed)
 		onCellClick: function (row, column) {
 			// TODO start #board loop at 0 so we don't need the -1s
 			if (this.canMove) {
@@ -196,6 +219,7 @@ export default {
 				this.checkCell();
 			}
 		},
+		// move the player when arrow key is pressed (only if moving is allowed)
 		onKeyUp: function(evt) {
 			if (this.canMove) {
 				let key = evt.code
@@ -220,6 +244,7 @@ export default {
 				this.checkCell();
 			}
 		},
+		// launch an action depending on cell type
 		checkCell: function() {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				this.winGame()
@@ -243,6 +268,7 @@ export default {
 				this.fightEnemy()
 			}
 		},
+		// game won actions
 		winGame: function() {
 			if (this.soundOn) {
 				this.$emit('pause-music')
@@ -252,6 +278,7 @@ export default {
 				this.hasWon = true
 			}, 750)
 		},
+		// game lost actions
 		loseGame: function() {
 			if (this.soundOn) {
 				this.$emit('pause-music')
@@ -261,18 +288,22 @@ export default {
 				this.hasLost = true
 			}, 1500)
 		},
+		// the player gets a coin and the coin is deleted from the cell
 		getCoin: function() {
 			this.playerCoins += 1;
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
 		},
+		// the player gets a life and the mushroom is deleted from the cell
 		getMushroom: function() {
 			this.lives += 1
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
 		},
+		// the player gets a star and the star is deleted from the cell
 		getStar: function() {
 			this.hasStar = true
 			this.grid[this.playerCellRow][this.playerCellColumn] = null
 		},
+		// logic of whether the player loses a life/star on enemy cell. Then enemy is deleted from the cell
 		fightEnemy: function() {
 			this.enemies -= 1
 			if (this.hasStar) {
@@ -287,21 +318,27 @@ export default {
 				this.grid[this.playerCellRow][this.playerCellColumn] = null
 			})
 		},
+		// toggle music on/off when clicking on music control
 		onMusicClick: function() {
 			this.$emit('toggle-music')
 		},
+		// toggle sounds on/off when clicking on sound control
 		onSoundClick: function() {
 			this.$emit('toggle-sound')
 		},
+		// emit change board size event : board size is no longer selected
 		changeBoardSize: function() {
 			this.$emit('change-board-size')
 		},
+		// sets a board size
 		selectBoardSize: function(size) {
 			this.$emit('select-board-size', size)
 		},
+		// emit change difficulty event : difficulty is no longer selected
 		changeDifficulty: function() {
 			this.$emit('change-difficulty')
 		},
+		// sets a difficulty
 		selectDifficulty: function(difficulty) {
 			this.$emit('select-difficulty', difficulty)
 		}

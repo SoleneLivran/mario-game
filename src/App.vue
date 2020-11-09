@@ -38,6 +38,7 @@ const BOARDSIZE_SMALL = 1
 const BOARDSIZE_MEDIUM = 2
 const BOARDSIZE_LARGE = 3
 
+// game configuration : nb of rows, columns, enemies, mushrooms and stars depending on selected board size and difficulty
 const CONFIGS = {
   [BOARDSIZE_SMALL]: {
     [DIFFICULTY_EASY]: {
@@ -111,12 +112,14 @@ const CONFIGS = {
   }
 }
 
+// board size name to be displayed on buttons when chosen
 const BOARDSIZE_NAME = {
   [BOARDSIZE_SMALL]: "small",
   [BOARDSIZE_MEDIUM]: "medium",
   [DIFFICULTY_HARD]: "big"
 }
 
+// game difficulty name to be displayed on buttons when chosen
 const DIFFICULTY_NAME = {
   [DIFFICULTY_EASY]: "easy",
   [DIFFICULTY_MEDIUM]: "medium",
@@ -131,9 +134,9 @@ export default {
   data() {
     return {
       sizeSelected: false,
-      boardSize: 2,
+      boardSize: [BOARDSIZE_MEDIUM],
       difficultySelected: false,
-      difficulty: 2,
+      difficulty: [DIFFICULTY_MEDIUM],
       gameKey: 0,
       backgroundMusic: new Audio('/sound/HeatleyBros - 8 Bit Think.mp3'),
       soundOn: false,
@@ -142,6 +145,7 @@ export default {
     }
   },
   computed: {
+    // config (nb of items, rows, columns) depending on selected board size and difficulty
     configuration: function () {
       return CONFIGS[this.boardSize][this.difficulty]
     },
@@ -153,12 +157,15 @@ export default {
     }
   },
   mounted() {
+    // play background music when page is loaded
     this.playBackgroundMusic()
   },
   methods: {
+    // launch a new game (creates a new board)
     reloadGame: function() {
       this.gameKey += 1
     },
+    // play the sound of the relevant item
     playSound: function(soundName) {
       if (!this.soundOn) {
         return
@@ -175,6 +182,7 @@ export default {
 
       sounds[soundName].play()
     },
+    // play the background music on a loop if music is allowed to play
     playBackgroundMusic: function() {
       this.backgroundMusic.loop = true
       this.backgroundMusic.volume = this.musicVolume
@@ -184,38 +192,47 @@ export default {
         this.unpauseMusic()
       }
     },
+    // allow game sounds on/off
     toggleSound: function () {
       this.soundOn = !this.soundOn
     },
+    // allow background music on/off
     toggleMusic: function () {
       this.musicOn = !this.musicOn
     },
+    // pause background music
     pauseMusic: function () {
       this.backgroundMusic.pause()
     },
+    // continue background music
     unpauseMusic: function () {
       if (this.musicOn) {
         this.backgroundMusic.play()
       }
     },
+    // board size is selected, and has the chosen value
     selectBoardSize: function(size) {
       this.sizeSelected = true
       this.boardSize = size
       this.reloadGame()
     },
+    // board size is not selected, waiting to be chosen/changed
     changeBoardSize: function() {
       this.sizeSelected = false
     },
+    // game difficulty is selected, and has the chosen value
     selectDifficulty: function(difficulty) {
       this.difficultySelected = true
       this.difficulty = difficulty
       this.reloadGame()
     },
+    // game difficulty is not selected, waiting to be chosen/changed
     changeDifficulty: function() {
       this.difficultySelected = false
     }
   },
   watch: {
+    // start background music when musicOn setting changes (logic of if music is played or paused depends of musicOn value true/false)
     musicOn: function() {
       this.playBackgroundMusic()
     }
