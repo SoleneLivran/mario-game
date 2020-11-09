@@ -866,4 +866,10 @@ export default {
 		}
 	}
 
+	@media screen and (max-width: 425px) and (orientation:portrait) {
+		body {
+			transform: rotate(90deg);
+		}
+	}
+
 </style>
