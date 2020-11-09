@@ -415,29 +415,30 @@ export default {
 				<p>Hidden enemies: {{enemies}}</p>
 			</div>
 
-			<div id="board" v-if="sizeSelected && difficultySelected">
-				<div v-for="row in rows" :key="row" class="cellRow">
-					<div
-						v-for="column in columns"
-						:key="column"
-						class="cell"
-						:class="{
-							'cellStart' : isCellOfType(row, column, 'start'),
-							'cellEnd' : isCellOfType(row, column, 'end'),
-							'cellCurrent' : isMarioOnCell(row, column) && !hasStar,
-							'cellCurrentWithStar' : isMarioOnCell(row, column) && hasStar,
-							'coinCell' : isCellOfType(row, column, 'coin'),
-							'mushroomCell' : isCellOfType(row, column, 'mushroom'),
-							'starCell' : isCellOfType(row, column, 'star'),
-							'enemyCellActive' : isCellOfType(row, column, 'enemy') && isMarioOnCell(row, column),
-							'cellGameOver' : isMarioOnCell(row, column) && (lives === 0),
-							'enemyCell' : isCellOfType(row, column, 'enemy'),
-						}"
-						@click="onCellClick(row, column)">
+			<div class="board" v-if="sizeSelected && difficultySelected">
+				<div id="board">
+					<div v-for="row in rows" :key="row" class="cellRow">
+						<div
+							v-for="column in columns"
+							:key="column"
+							class="cell"
+							:class="{
+								'cellStart' : isCellOfType(row, column, 'start'),
+								'cellEnd' : isCellOfType(row, column, 'end'),
+								'cellCurrent' : isMarioOnCell(row, column) && !hasStar,
+								'cellCurrentWithStar' : isMarioOnCell(row, column) && hasStar,
+								'coinCell' : isCellOfType(row, column, 'coin'),
+								'mushroomCell' : isCellOfType(row, column, 'mushroom'),
+								'starCell' : isCellOfType(row, column, 'star'),
+								'enemyCellActive' : isCellOfType(row, column, 'enemy') && isMarioOnCell(row, column),
+								'cellGameOver' : isMarioOnCell(row, column) && (lives === 0),
+								'enemyCell' : isCellOfType(row, column, 'enemy'),
+							}"
+							@click="onCellClick(row, column)">
+						</div>
 					</div>
 				</div>
 			</div>
-
 			<div id="boardSizeSelector" v-if="!sizeSelected">
 				Choose a board size!
 				<div class="boardSizeButtons">
@@ -625,6 +626,11 @@ export default {
 		100% {
 			transform: scale(1);
 		}
+	}
+
+	.board {
+		display: flex;
+		justify-content: center;
 	}
 
 	#board {
@@ -836,6 +842,19 @@ export default {
 		.game-over p {
 			font-size: 0.8em;
 		}
+
+		.cell {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+
+		.mushroomCell::after,
+		.coinCell::after,
+		.starCell::after {
+			transform: scale(.7);
+			position:relative;
+			bottom: -3px;
+		}
 	}
 
 	@media screen and (max-width: 375px) {
@@ -866,9 +885,18 @@ export default {
 		}
 	}
 
-	@media screen and (max-width: 425px) and (orientation:portrait) {
-		body {
-			transform: rotate(90deg);
+	@media screen and (max-width: 320px) {
+		.cell {
+			width: 2.3rem;
+			height: 2.3rem;
+		}
+
+		.mushroomCell::after,
+		.coinCell::after,
+		.starCell::after {
+			transform: scale(.7);
+			position:relative;
+			bottom: -3px;
 		}
 	}
 
