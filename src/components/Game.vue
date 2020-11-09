@@ -843,6 +843,12 @@ export default {
 			font-size: 0.8em;
 		}
 
+		.victory-stats {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
 		.cell {
 			width: 2.5rem;
 			height: 2.5rem;
@@ -866,12 +872,6 @@ export default {
 
 		.footer-element-symbol {
 			margin-bottom: 0.5em;
-		}
-
-		.victory-stats {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
 		}
 
 		.victory h1,
