@@ -510,9 +510,14 @@ export default {
 		</div>
 
 		<div class="footer">
-				<a href="https://github.com/SoleneLivran/mario-game"><i class="fab fa-github"></i> Project's GitHub repository</a>
-				<a href="https://solenelivran.github.io/"><i class="fas fa-globe"></i> Developer's portfolio</a>
-				<a href="http://www.videogamesprites.net"><i class="fas fa-gamepad"></i> Images: Videogamesprites </a>
+				<a class="footer-element" href="https://github.com/SoleneLivran/mario-game">
+					<i class="fab fa-github footer-element-symbol"></i>
+					<span>Project's GitHub repository</span>
+				</a>
+				<a class="footer-element" href="https://solenelivran.github.io/">
+					<i class="fas fa-globe footer-element-symbol"></i>
+					<span>Developer's portfolio</span>
+				</a>
 		</div>
 	</div>
 
@@ -527,12 +532,6 @@ export default {
 
 	body, html {
 		height:100%;
-	}
-
-	a {
-		color: white;
-		text-decoration: none;
-		margin: 1em;
 	}
 
 	h1 {
@@ -553,6 +552,16 @@ export default {
 		height: 50px;
 		font-size: 0.8em;
 		font-weight: 500;
+	}
+
+	.footer-element {
+		color: white;
+		text-decoration: none;
+		margin: 1em;
+	}
+
+	.footer-element-symbol {
+		margin-right: 0.5em;
 	}
 
 	.rules {
@@ -816,6 +825,16 @@ export default {
 
 		#settings {
 			display: block;
+		}
+
+		.footer-element {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.footer-element-symbol {
+			margin-bottom: 0.5em;
 		}
 	}
 
