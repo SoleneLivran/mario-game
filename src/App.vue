@@ -44,14 +44,14 @@ const CONFIGS = {
     [DIFFICULTY_EASY]: {
       rows: 3,
       columns: 4,
-      enemies: 1,
+      enemies: 3,
       mushrooms: 2,
       stars: 1
     },
     [DIFFICULTY_MEDIUM]: {
       rows: 3,
       columns: 4,
-      enemies: 2,
+      enemies: 3,
       mushrooms: 1,
       stars: 0,
 
