@@ -164,6 +164,9 @@ export default {
     // launch a new game (creates a new board)
     reloadGame: function() {
       this.gameKey += 1
+      this.$nextTick(() => {
+        this.scrollToBottom()
+      })
     },
     // play the sound of the relevant item
     playSound: function(soundName) {
@@ -214,7 +217,9 @@ export default {
     selectBoardSize: function(size) {
       this.sizeSelected = true
       this.boardSize = size
-      this.reloadGame()
+      if (this.difficultySelected) {
+        this.reloadGame()
+      }
     },
     // board size is not selected, waiting to be chosen/changed
     changeBoardSize: function() {
@@ -224,11 +229,17 @@ export default {
     selectDifficulty: function(difficulty) {
       this.difficultySelected = true
       this.difficulty = difficulty
-      this.reloadGame()
+      if (this.sizeSelected) {
+        this.reloadGame()
+      }
     },
     // game difficulty is not selected, waiting to be chosen/changed
     changeDifficulty: function() {
       this.difficultySelected = false
+    },
+    // scroll to bottom of page so the game board is into view
+    scrollToBottom: function() {
+      window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
     }
   },
   watch: {

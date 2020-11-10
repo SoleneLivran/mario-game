@@ -6,12 +6,13 @@ export default {
 			grid: [],
 			playerCellRow: 1,
 			playerCellColumn: 1,
+			// TODO computed coins
 			gameCoins: 3,
 			playerCoins: 0,
 			hasStar: false,
 			lives: 3,
 			hasWon: false,
-			hasLost: false,
+			hasLost: false
 		}
 	},
 	computed: {
@@ -23,6 +24,7 @@ export default {
 			}
 			return this.lives >= 1;
 		}
+		// TODO computed enemies
 	},
 	created() {
 		// listener for moves with keyboard
