@@ -7,6 +7,7 @@ export default {
 			playerCellRow: 1,
 			playerCellColumn: 1,
 			playerCoins: 0,
+			currentEnemiesCount: 0,
 			hasStar: false,
 			lives: 3,
 			hasWon: false,
@@ -21,10 +22,6 @@ export default {
 				return false
 			}
 			return this.lives >= 1
-		},
-		remainingEnemies: function () {
-			return this.enemies
-			// TODO fix : Computed property "remainingEnemies" was assigned to but it has no setter.
 		}
 	},
 	created() {
@@ -95,10 +92,12 @@ export default {
 		}
 
 		// define enemies coordinates
-		for (let enemy = 0; enemy < this.enemies; enemy++) {
+		for (let enemy = 0; enemy < this.initialEnemiesCount; enemy++) {
 			let enemyCoord = this.generateEmptyCoordinates()
 			this.grid[enemyCoord.row][enemyCoord.column] = 'enemy'
 		}
+
+		this.currentEnemiesCount = this.initialEnemiesCount
 	},
 	destroyed() {
 		window.removeEventListener('keyup', this.onKeyUp)
@@ -140,7 +139,7 @@ export default {
 		difficultyName: {
 			type: String,
 		},
-		enemies: {
+		initialEnemiesCount: {
 			type: Number,
 			default: 4
 		},
@@ -312,7 +311,8 @@ export default {
 		},
 		// logic of whether the player loses a life/star on enemy cell. Then enemy is deleted from the cell
 		fightEnemy: function() {
-			this.remainingEnemies -= 1
+			this.currentEnemiesCount -= 1
+
 			if (this.hasStar) {
 				this.hasStar = false
 			} else {
@@ -419,7 +419,7 @@ export default {
 					</transition-group>
 				</p>
 				<p>Coins collected: {{playerCoins}}</p>
-				<p>Hidden enemies: {{enemies}}</p>
+				<p>Hidden enemies: {{currentEnemiesCount}}</p>
 			</div>
 
 			<div class="board" v-if="sizeSelected && difficultySelected">

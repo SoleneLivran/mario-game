@@ -7,7 +7,7 @@
             :columns="configuration.columns"
             :difficulty-selected="difficultySelected"
             :difficulty-name="difficultyName"
-            :enemies="configuration.enemies"
+            :initialEnemiesCount="configuration.initialEnemiesCount"
             :mushrooms="configuration.mushrooms"
             :stars="configuration.stars"
             :coins="coins"
@@ -45,14 +45,14 @@ const CONFIGS = {
     [DIFFICULTY_EASY]: {
       rows: 3,
       columns: 4,
-      enemies: 3,
+      initialEnemiesCount: 3,
       mushrooms: 2,
       stars: 1
     },
     [DIFFICULTY_MEDIUM]: {
       rows: 3,
       columns: 4,
-      enemies: 3,
+      initialEnemiesCount: 3,
       mushrooms: 1,
       stars: 0,
 
@@ -60,7 +60,7 @@ const CONFIGS = {
     [DIFFICULTY_HARD]: {
       rows: 3,
       columns: 4,
-      enemies: 3,
+      initialEnemiesCount: 3,
       mushrooms: 0,
       stars: 0
     }
@@ -69,21 +69,21 @@ const CONFIGS = {
     [DIFFICULTY_EASY]: {
       rows: 4,
       columns: 6,
-      enemies: 3,
+      initialEnemiesCount: 3,
       mushrooms: 2,
       stars: 1
     },
     [DIFFICULTY_MEDIUM]: {
       rows: 4,
       columns: 6,
-      enemies: 6,
+      initialEnemiesCount: 6,
       mushrooms: 1,
       stars: 1,
     },
     [DIFFICULTY_HARD]: {
       rows: 4,
       columns: 6,
-      enemies: 8,
+      initialEnemiesCount: 8,
       mushrooms: 1,
       stars: 0
     }
@@ -92,21 +92,21 @@ const CONFIGS = {
     [DIFFICULTY_EASY]: {
       rows: 5,
       columns: 8,
-      enemies: 6,
+      initialEnemiesCount: 6,
       mushrooms: 2,
       stars: 1
     },
     [DIFFICULTY_MEDIUM]: {
       rows: 5,
       columns: 8,
-      enemies: 12,
+      initialEnemiesCount: 12,
       mushrooms: 1,
       stars: 1,
     },
     [DIFFICULTY_HARD]: {
       rows: 5,
       columns: 8,
-      enemies: 16,
+      initialEnemiesCount: 16,
       mushrooms: 1,
       stars: 0
     }
