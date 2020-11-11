@@ -6,8 +6,6 @@ export default {
 			grid: [],
 			playerCellRow: 1,
 			playerCellColumn: 1,
-			// TODO computed coins
-			gameCoins: 3,
 			playerCoins: 0,
 			hasStar: false,
 			lives: 3,
@@ -22,9 +20,12 @@ export default {
 			if (this.grid[this.playerCellRow][this.playerCellColumn] === 'end') {
 				return false
 			}
-			return this.lives >= 1;
+			return this.lives >= 1
+		},
+		remainingEnemies: function () {
+			return this.enemies
+			// TODO fix : Computed property "remainingEnemies" was assigned to but it has no setter.
 		}
-		// TODO computed enemies
 	},
 	created() {
 		// listener for moves with keyboard
@@ -33,7 +34,7 @@ export default {
 		// listener to prevent scroll with arrows
 		window.addEventListener("keydown", function(e) {
 			if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) !== -1) {
-				e.preventDefault();
+				e.preventDefault()
 			}
 		}, false)
 
@@ -74,7 +75,7 @@ export default {
 
 		// define coins coordinates
 		// for each coin...
-		for (let coin = 0; coin < this.gameCoins; coin++) {
+		for (let coin = 0; coin < this.coins; coin++) {
 			// find a cell which is still "undefined" (has no item)
 			let coinCoord = this.generateEmptyCoordinates()
 			// this cell is now "coin" instead of "undefined"
@@ -150,6 +151,10 @@ export default {
 		stars: {
 			type: Number,
 			default: 1
+		},
+		coins: {
+			type: Number,
+			default: 3
 		},
 		// are game sounds allowed to play?
 		soundOn: {
@@ -307,7 +312,7 @@ export default {
 		},
 		// logic of whether the player loses a life/star on enemy cell. Then enemy is deleted from the cell
 		fightEnemy: function() {
-			this.enemies -= 1
+			this.remainingEnemies -= 1
 			if (this.hasStar) {
 				this.hasStar = false
 			} else {
@@ -406,7 +411,7 @@ export default {
 
 			<div class="stats" v-if="sizeSelected && difficultySelected">
 				<p>
-					Lives: 
+					Lives:
 					<transition-group name="bounce">
 						<li v-for="life in lives" :key="life">
 							<i class="fas fa-heart" style="color:red;"></i>
@@ -494,7 +499,7 @@ export default {
 			<img alt="Victory!" src="../../public/img/mushroom.png" width="150px">
 			<h1>Victory!</h1>
 			<p class="victory-stats">
-				Coins collected: <span class="coins-collected">{{playerCoins}} / {{gameCoins}}</span>
+				Coins collected: <span class="coins-collected">{{playerCoins}} / {{coins}}</span>
 			</p>
 			<button class="button newGameButton" @click="newGame">
 				New Game

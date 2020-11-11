@@ -10,6 +10,7 @@
             :enemies="configuration.enemies"
             :mushrooms="configuration.mushrooms"
             :stars="configuration.stars"
+            :coins="coins"
             :key="gameKey"
             :sound-on="soundOn"
             :music-on="musicOn"
@@ -142,6 +143,7 @@ export default {
       soundOn: false,
       musicOn: false,
       musicVolume: 0.3,
+      coins: 3,
     }
   },
   computed: {
@@ -238,6 +240,7 @@ export default {
       this.difficultySelected = false
     },
     // scroll to bottom of page so the game board is into view
+    // TODO : find a cleaner solution
     scrollToBottom: function() {
       window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
     }
