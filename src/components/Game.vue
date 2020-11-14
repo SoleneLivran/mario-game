@@ -725,15 +725,14 @@ export default {
 	}
 
 	.deadEnemyCell {
-		background-image: url("../../public/img/enemy.png");
+		background-image: url("../../public/img/deadghost.png");
 		background-size: 50%;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
 
 	.enemyCellActive {
-		background-color: red;
-		animation: enemy 1s infinite;
+		animation: enemy 1.5s, red-flash 1s infinite;
 	}
 
 	.cellCurrent {
@@ -743,17 +742,30 @@ export default {
 		background-position: center;
 	}
 
+	@keyframes enemy {
+		0% {background-image: url("../../public/img/ghost.png"); background-size: 55%;}
+		24% {background-image: url("../../public/img/ghost.png"); background-size: 55%;}
+		25% {background-image: url("../../public/img/mario-jump.png"); background-size: 70%;}
+		49% {background-image: url("../../public/img/mario-jump.png"); background-size: 70%;}
+		50% {background-image: url("../../public/img/ghost.png"); background-size: 55%;}
+		74% {background-image: url("../../public/img/ghost.png"); background-size: 55%;}
+		75% {background-image: url("../../public/img/mario-jump.png"); background-size: 70%;}
+		99% {background-image: url("../../public/img/mario-jump.png"); background-size: 70%;}
+		100% {background-image: url("../../public/img/ghost.png"); background-size: 55%;}
+	}
+
+	@keyframes red-flash {
+		0% {background-color: red;}
+		50% {background-color: #00AB00;}
+		100% {background-color: red;}
+	}
+
 	.cellGameOver {
+		animation: red-flash 1s infinite;
 		background-image: url("../../public/img/skull.png");
 		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
-	}
-
-	@keyframes enemy {
-		0% {background-color: red;}
-		50% {background-color: #00AB00;}
-		100% {background-color: red;}
 	}
 
 	.victory,
