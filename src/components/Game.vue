@@ -691,10 +691,6 @@ export default {
 		background-position: center;
 	}
 
-	/*.coinCell::after {*/
-	/*	content: url("../../public/img/coin.gif");*/
-	/*}*/
-
 	.coinCell {
 		background-image: url("../../public/img/coin.gif");
 		background-size: 20%;
@@ -702,20 +698,12 @@ export default {
 		background-position: center;
 	}
 
-	/*.mushroomCell::after {*/
-	/*	content: url("../../public/img/mushroom.gif");*/
-	/*}*/
-
 	.mushroomCell {
 		background-image: url("../../public/img/mushroom.gif");
 		background-size: 40%;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
-
-	/*.starCell::after {*/
-	/*	content: url("../../public/img/star.gif");	*/
-	/*}*/
 
 	.starCell {
 		background-image: url("../../public/img/star.gif");
@@ -900,14 +888,6 @@ export default {
 			width: 2.5rem;
 			height: 2.5rem;
 		}
-
-		/*.mushroomCell::after,*/
-		/*.coinCell::after,*/
-		/*.starCell::after {*/
-		/*	transform: scale(.7);*/
-		/*	position:relative;*/
-		/*	bottom: -3px;*/
-		/*}*/
 	}
 
 	@media screen and (max-width: 375px) {
@@ -937,14 +917,6 @@ export default {
 			width: 2.3rem;
 			height: 2.3rem;
 		}
-
-		/*.mushroomCell::after,*/
-		/*.coinCell::after,*/
-		/*.starCell::after {*/
-		/*	transform: scale(.7);*/
-		/*	position:relative;*/
-		/*	bottom: -3px;*/
-		/*}*/
 	}
 
 </style>
