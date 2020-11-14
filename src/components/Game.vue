@@ -684,13 +684,6 @@ export default {
 		background-position: center;
 	}
 
-	.cellCurrentWithStar {
-		background-image: url("../../public/img/mario-star.png");
-		background-size: 80%;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-
 	.coinCell {
 		background-image: url("../../public/img/coin.gif");
 		background-size: 20%;
@@ -726,6 +719,13 @@ export default {
 	.cellCurrent {
 		background-image: url("../../public/img/mario-jump.png");
 		background-size: 70%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.cellCurrentWithStar {
+		background-image: url("../../public/img/mario-star.png");
+		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
