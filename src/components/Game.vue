@@ -322,7 +322,7 @@ export default {
 				this.loseGame()
 			}
 			this.$nextTick(() => {
-				this.grid[this.playerCellRow][this.playerCellColumn] = null
+				this.grid[this.playerCellRow][this.playerCellColumn] = "deadEnemy"
 			})
 		},
 		// toggle music on/off when clicking on music control
@@ -439,7 +439,7 @@ export default {
 								'starCell' : isCellOfType(row, column, 'star'),
 								'enemyCellActive' : isCellOfType(row, column, 'enemy') && isMarioOnCell(row, column),
 								'cellGameOver' : isMarioOnCell(row, column) && (lives === 0),
-								'enemyCell' : isCellOfType(row, column, 'enemy'),
+								'deadEnemyCell' : isCellOfType(row, column, 'deadEnemy'),
 							}"
 							@click="onCellClick(row, column)">
 						</div>
@@ -676,23 +676,9 @@ export default {
 		background-position: center;
 	}
 
-	.cellCurrent {
-		background-image: url("../../public/img/mario-jump.png");
-		background-size: 70%;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-
 	.cellEnd.cellCurrent,
 	.cellEnd.cellCurrentWithStar {
 		background-image: url("../../public/img/trophy.png");
-		background-size: 80%;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-
-	.cellGameOver {
-		background-image: url("../../public/img/skull.png");
 		background-size: 80%;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -705,21 +691,63 @@ export default {
 		background-position: center;
 	}
 
-	.coinCell::after {
-		content: url("../../public/img/coin.gif");
+	/*.coinCell::after {*/
+	/*	content: url("../../public/img/coin.gif");*/
+	/*}*/
+
+	.coinCell {
+		background-image: url("../../public/img/coin.gif");
+		background-size: 20%;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 
-	.mushroomCell::after {
-		content: url("../../public/img/mushroom.gif");
+	/*.mushroomCell::after {*/
+	/*	content: url("../../public/img/mushroom.gif");*/
+	/*}*/
+
+	.mushroomCell {
+		background-image: url("../../public/img/mushroom.gif");
+		background-size: 40%;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 
-	.starCell::after {
-		content: url("../../public/img/star.gif");	
+	/*.starCell::after {*/
+	/*	content: url("../../public/img/star.gif");	*/
+	/*}*/
+
+	.starCell {
+		background-image: url("../../public/img/star.gif");
+		background-size: 40%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.deadEnemyCell {
+		background-image: url("../../public/img/enemy.png");
+		background-size: 50%;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 
 	.enemyCellActive {
 		background-color: red;
 		animation: enemy 1s infinite;
+	}
+
+	.cellCurrent {
+		background-image: url("../../public/img/mario-jump.png");
+		background-size: 70%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.cellGameOver {
+		background-image: url("../../public/img/skull.png");
+		background-size: 80%;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 
 	@keyframes enemy {
@@ -861,13 +889,13 @@ export default {
 			height: 2.5rem;
 		}
 
-		.mushroomCell::after,
-		.coinCell::after,
-		.starCell::after {
-			transform: scale(.7);
-			position:relative;
-			bottom: -3px;
-		}
+		/*.mushroomCell::after,*/
+		/*.coinCell::after,*/
+		/*.starCell::after {*/
+		/*	transform: scale(.7);*/
+		/*	position:relative;*/
+		/*	bottom: -3px;*/
+		/*}*/
 	}
 
 	@media screen and (max-width: 375px) {
@@ -898,13 +926,13 @@ export default {
 			height: 2.3rem;
 		}
 
-		.mushroomCell::after,
-		.coinCell::after,
-		.starCell::after {
-			transform: scale(.7);
-			position:relative;
-			bottom: -3px;
-		}
+		/*.mushroomCell::after,*/
+		/*.coinCell::after,*/
+		/*.starCell::after {*/
+		/*	transform: scale(.7);*/
+		/*	position:relative;*/
+		/*	bottom: -3px;*/
+		/*}*/
 	}
 
 </style>
