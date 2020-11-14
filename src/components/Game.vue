@@ -399,7 +399,7 @@ export default {
 					<img class="rulesImage mushroomImage" src="../../public/img/mushroom.gif" alt="mushroom" width="25px" style="margin-right: 0.5em;">If you find a mushroom, you get an extra life <i class="fas fa-heart" style="color:red;"></i>
 				</p>
 				<p>
-					<i class="fas fa-skull" style="font-size:1.5em;"></i> Enemies are hiding. If one finds you, you lose a life
+					<img class="rulesImage enemyImage" src="../../public/img/ghost.png" alt="enemy" width="25px"> Enemies are hiding. If one finds you, you lose a life
 				</p>
 				<p>
 					<img class="rulesImage starImage" src="../../public/img/star.gif" alt="star" width="25px"> If you find a star, you are protected from the next enemy
